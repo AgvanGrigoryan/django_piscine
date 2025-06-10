@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMG FORM</title>
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		margin: 20px;
+		color: #333;
+	}
+	form#best_form_ever label {
+		/* background-color: #424242; */
+		display: block;
+		margin: 5px 5px;
+	}
+	form#best_form_ever label input {
+		border: 1px solid #424242;
+		padding: 5px;
+		border-radius: 5px;
+	}
+
+	form#best_form_ever label input:focus {
+		outline: none;
+
+		border: 2px solid gold;
+	}
+</style>
+</head>
+<body>
+	<main>
+		<section>
+			<form onsubmit="displayFormContents();" id="best_form_ever" action="" method="get">
+				<label for="firstname">Firstname: <input type="text" name="firstname" id="firstname" placeholder="Poxos"></label>
+				<label for="name">Name: <input type="text" name="name" id="name" placeholder="Poxosyan"></label>
+				<label for="age">Age: <input type="number" name="age" id="age" placeholder="42"></label>
+				<label for="phone">Phone: <input type="number" name="phone" id="phone" placeholder="+374 (**) **-**-**"></label>
+				<label for="student">Email: <input type="email" name="student_at_42" id="student" placeholder="poxos777@gmail.com"></label>
+				<label for="email">Student at 42?: <input type="checkbox" name="email" id="email" placeholder="poxos777@student.42yerevan.am"></label>
+				<div class="gender_radio">
+					<label for="gender_male">Male <input type="radio" name="gender" id="gender_male"></label>
+					<label for="gender_female">Female <input type="radio" name="gender" id="gender_female"></label>
+					<label for="gender_other">Other <input type="radio" name="gender" id="gender_other"></label>
+				</div>
+				<button type="submit">Run that sexy Javascript</button>
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2025 Agvan Grigoryan. If you want web-site like this call me.</p>
+	</footer>
+	<script src="popup.js"></script>
+</body>
+</html>
