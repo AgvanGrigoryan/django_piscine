@@ -19,20 +19,14 @@ def get_capital_cities() -> dict[str, str]:
 	return capital_cities
 
 def get_key_by_value(d: dict[str, str], target_value: str | None) -> str | None:
-	# print("\nA", target_value)
 	if target_value is None:
 		return None
 	for key, value in d.items():
-		# print(key, value)
 		if value == target_value:
 			return key
 	return None
 
-if __name__ == "__main__":
-	EXPECTED_ARGC = 2
-	if len(sys.argv) != EXPECTED_ARGC:
-		exit(1)
-	target_capital : str = sys.argv[1]
+def process(target_capital: str) -> None:
 	states : dict[str, str] = get_states()
 	capital_cities : dict[str, str] = get_capital_cities()
 	state_code : str | None = get_key_by_value(capital_cities, target_capital)
@@ -42,4 +36,8 @@ if __name__ == "__main__":
 	else:
 		print(state)
 
-	
+if __name__ == "__main__":
+	EXPECTED_ARGC = 2
+	if len(sys.argv) != EXPECTED_ARGC:
+		exit(1)
+	process(sys.argv[1])
