@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume - {name} {surname}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {{
+            font-family: 'Inter', sans-serif;
+            background-color: #f2f4f8;
+            color: #2c3e50;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }}
+
+        .cv-container {{
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            max-width: 600px;
+            width: 100%;
+        }}
+
+        h1 {{
+            margin-top: 0;
+            font-size: 28px;
+            color: #1a1a1a;
+        }}
+
+        p {{
+            font-size: 16px;
+            line-height: 1.6;
+        }}
+
+        strong {{
+            color: #34495e;
+        }}
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <h1>{name} {surname}</h1>
+        <p><strong>Age:</strong> {age}</p>
+        <p><strong>Profession:</strong> {profession}</p>
+    </div>
+</body>
+</html>
