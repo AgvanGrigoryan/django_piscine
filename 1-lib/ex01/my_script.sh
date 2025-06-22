@@ -16,7 +16,7 @@ pip install --target $lib_folder --upgrade git+https://github.com/jaraco/path.gi
 
 if [ $? -eq 0 ]; then
 	echo -e $green"Installation successful. Running Python script..."$reset_color
-	python3 $py_script
+	PYTHONPATH=$lib_folder python3 $py_script
 else
 	echo -e $red"Installation failed. Check ./$log_file for details."$reset_color
 fi
