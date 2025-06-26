@@ -2,7 +2,7 @@ import sys
 import antigravity
 
 if __name__ == "__main__":
-    if argc := len(sys.argv) != 5:
+    if (argc := len(sys.argv)) != 5:
         raise SystemExit(f"takes 3 positional arguments [latitude, longitude, date(YYY-MM-DD), dow], given {argc}")
     
     try:
