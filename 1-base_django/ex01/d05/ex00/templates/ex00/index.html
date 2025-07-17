@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ex00: Markdown Cheatsheet.</title>
-    <style>
+{% extends "base.html" %}
+{% block title %}Ex00: Markdown Cheatshet{% endblock %}
+{% block style %}
     body {
         font-family: sans-serif;
         background: #fff;
@@ -103,10 +99,8 @@
     .na { color: red; }                         /* HTML-атрибуты */
     .p  { color: gray; }                        /* Символы пунктуации */
     .s  { color: darkred; }                     /* Строковые значения */
-
-    </style>
-</head>
-<body>
+{% endblock %}
+{% block content %}
 <table>
 <tbody>
 	<tr>
@@ -288,5 +282,4 @@ Most inline &lt;abbr title="Hypertext Markup Language"&gt;HTML&lt;/abbr&gt; tags
 	</tr>
 </tbody>
 </table>
-</body>
-</html>
+{% endblock %}
