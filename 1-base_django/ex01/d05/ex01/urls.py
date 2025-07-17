@@ -1,7 +1,8 @@
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('django/', some_django_view),
-    path('display/', some_display_view),
-    path('templates/', some_templates_view),
+    path('django/', views.Render_ex01_django),
+    path('display/', views.Render_ex01_display),
+    path('templates/', views.Render_ex01_templates),
 ]
