@@ -2,4 +2,32 @@
 {% load static %}
 {% block title %}Ex01: Template engine.{% endblock %}
 {% block style %}<link rel="stylesheet" href="{% static 'style2.css' %}" >{% endblock %}
-{% block content %}Ex01: Template engine.{% static 'style2.css' %}{% endblock %}
+{% block content %}
+{% verbatim %}
+<h1>Django Template Engine</h1>
+<p>Django's template engine allows you to generate dynamic HTML pages using Python data passed through the context.</p>
+
+<h2>Blocks</h2>
+<p>Blocks are placeholders defined in a base template and overridden in child templates. Example:</p>
+<pre><code>{% block content %}...{% endblock %}</code></pre>
+
+<h2>For Loops</h2>
+<p>Used to iterate over lists or querysets:</p>
+<pre><code>{% for item in items %}
+  &lt;p&gt;{{ item }}&lt;/p&gt;
+{% endfor %}</code></pre>
+
+<h2>If Statements</h2>
+<p>Used for conditional rendering:</p>
+<pre><code>{% if user.is_authenticated %}
+  &lt;p&gt;Welcome, {{ user.username }}!&lt;/p&gt;
+{% else %}
+  &lt;p&gt;Please log in.&lt;/p&gt;
+{% endif %}</code></pre>
+
+<h2>Context Variables</h2>
+<p>Data is passed from the view to the template via a context dictionary:</p>
+<pre><code>return render(request, "template.html", {"name": "Alice"})</code></pre>
+<p>Then in the template, you can access it with <code>{{ name }}</code>.</p>
+{% endverbatim %}
+{% endblock %}
