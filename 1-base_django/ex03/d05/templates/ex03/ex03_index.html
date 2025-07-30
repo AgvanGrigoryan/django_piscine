@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title|title }}</title>
+    <link rel="stylesheet" href="{% static 'ex03_index.css' %}">
+</head>
+<body>
+    <h1>{{ title|title }}</h1>
+    <table>
+        <tr>
+            {% for color in colors %}
+                <th>{{ color }}</th>
+            {% endfor %}
+        </tr>
+
+        {% for row in shades_table %}
+            <tr>
+                {% for shade in row %}
+                    <td style="background-color: {{ shade }};"></td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
