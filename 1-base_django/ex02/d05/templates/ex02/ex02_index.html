@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% load static 'ex02/css/main_page.css'}">
+    <title>EX02</title>
+    <link rel="stylesheet" href="{% static 'ex02_index.css' %}">
 </head>
 <body>
     <form action="{% url 'add_history' %}" method="post">
@@ -13,5 +13,8 @@
         {{ form }}
         <input type="submit" value="Submit">
     </form>
+    {% for entry in history %}
+        <p>{{ entry|escape }}</p>
+    {% endfor %}
 </body>
 </html>

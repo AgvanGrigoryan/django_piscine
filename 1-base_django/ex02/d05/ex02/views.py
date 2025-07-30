@@ -1,20 +1,31 @@
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
-from  .forms import historyForm
+from django.conf import settings
+from .forms import TextForm
+from datetime import datetime
+import os
 
 def renderForm(request):
 
     if request.method == "POST":
         return HttpResponse("POST METHOD DOESN'T ALLOW")
-    else:
-        form = historyForm()
+    
+    form = TextForm()
+    history = []
+    if os.path.exists(settings.EX02_LOG_PATH):
+        with open(settings.EX02_LOG_PATH, mode="r") as logs:
+            history = logs.readlines()
+    return render(request, "ex02_index.html", {"form": form, "history": history})
 
-    return render(request, "main_page.html", {"form": form})
+def save_logs(log_text: str):
+    with open(settings.EX02_LOG_PATH, mode="a") as logs:
+        print(f"\033[0;32m{log_text}\033[0m")
+        logs.write(f"{log_text}\n")
 
 def addNewHistory(request):
-    if request.method == "POST":
-        form = historyForm(request.POST)
-        if form.is_valid():
-            return HttpResponse("CONGRATULATIONS BRO!")
-    else:
-        return HttpResponseRedirect(reverse("main_page"))
+    form = TextForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        save_logs(f"{datetime.now()} - {form.cleaned_data['user_input']}")
+        return redirect("main_page")
+    return HttpResponse("Invalid values of form")
+        

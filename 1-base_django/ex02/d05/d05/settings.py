@@ -118,7 +118,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-	BASE_DIR / "static",
+	BASE_DIR / "static" / "ex02" / "css",
 ]
 
 STATIC_ROOT = BASE_DIR / "collected_static"
@@ -127,3 +127,5 @@ STATIC_ROOT = BASE_DIR / "collected_static"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EX02_LOG_PATH = BASE_DIR / "ex02" / "logs.txt"

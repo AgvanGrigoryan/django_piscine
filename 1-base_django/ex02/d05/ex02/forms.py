@@ -1,4 +1,4 @@
 from django import forms
 
-class historyForm(forms.Form):
-    history = forms.CharField(label="SOME LABEL")
+class TextForm(forms.Form):
+    user_input = forms.CharField(label="Enter text")
