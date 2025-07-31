@@ -1,33 +1,34 @@
 from django.shortcuts import render
 
-def generate_shade(color_name: str, shade_num: int):
-    value = 255 - int((255 / 50) * shade_num)
+COLOR_GENERATORS = {
+    "noir": lambda v: f"rgb({v}, {v}, {v})",
+    "rouge": lambda v: f"rgb({v}, 0, 0)",
+    "bleu": lambda v: f"rgb(0, 0, {v})",
+    "vert": lambda v:  f"rgb(0, {v}, 0)",
+}
 
-    if color_name == "noir":
-        return f"rgb({value}, {value}, {value})"
-    elif color_name == "rouge":
-        return f"rgb({value}, 0, 0)"
-    elif color_name == "bleu":
-        return f"rgb(0, 0, {value})"
-    elif color_name == "vert":
-        return f"rgb(0, {value}, 0)"
-    return None
+def generate_shade(color_name: str, shade_num: int, step: int):
+    value = 255 - int((255 / step) * shade_num)
+    return COLOR_GENERATORS[color_name](value)
 
+def build_shades_table(colors: list[str], lines:int=50):
+    shades_table: list[list[str]] = []
 
-def index(request):
-    colors: list[str] = ["noir", "rouge", "bleu", "vert"]
-    shades_table: list[list[str]] = list()
-    
-    for i in range(50):
-        row: list[str] = list()
+    for i in range(lines):
+        row: list[str] = []
         for color in colors:
-            shade = generate_shade(color, i)
+            shade = generate_shade(color, i, lines)
             row.append(shade)
 
         shades_table.append(row)
+    return shades_table
 
-    context: dict = dict()
-    context.update({"title": "Shades Catalog"})
-    context.update({"colors": colors})
-    context.update({"shades_table" : shades_table})
+def index(request):
+    colors: list[str] = [color for color in COLOR_GENERATORS.keys()]
+
+    context = {
+        "title": "Shades Catalog",
+        "colors": colors,
+        "shades_table" : build_shades_table(colors),
+    }
     return render(request, "ex03_index.html", context)
