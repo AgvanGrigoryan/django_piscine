@@ -1,6 +1,7 @@
+from psycopg2 import sql
 
-CREATE_MOVIES_TABLE = """
-CREATE TABLE IF NOT EXISTS ex00_movies (
+MOVIES_TABLE_SQL_TEMPLATE = sql.SQL("""
+CREATE TABLE IF NOT EXISTS {} (
     episode_nb INTEGER PRIMARY KEY,
     title VARCHAR(64) NOT NULL UNIQUE,
     opening_crawl TEXT,
@@ -8,4 +9,4 @@ CREATE TABLE IF NOT EXISTS ex00_movies (
     producer VARCHAR(128) NOT NULL,
     release_date DATE NOT NULL
 );
-"""
+""")

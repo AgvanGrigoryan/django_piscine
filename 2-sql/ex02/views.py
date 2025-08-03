@@ -4,4 +4,11 @@ from psycopg2 import sql
 from sql.templates import MOVIES_TABLE_SQL_TEMPLATE
 
 def init(request):
-    pass
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                MOVIES_TABLE_SQL_TEMPLATE.format(sql.Identifier('ex02_movies'))
+            )
+        return HttpResponse("OK")
+    except DatabaseError as e:
+        return HttpResponse(f"An error occured: {e}", status=500)
