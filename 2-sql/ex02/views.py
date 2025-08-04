@@ -61,7 +61,9 @@ def init(request):
     try:
         with connection.cursor() as cursor:
             cursor.execute(
-                MOVIES_TABLE_SQL_TEMPLATE.format(sql.Identifier(MOVIES_TABLE_NAME))
+                MOVIES_TABLE_SQL_TEMPLATE.format(
+                    sql.Identifier(MOVIES_TABLE_NAME)
+                )
             )
         return HttpResponse("OK")
     except DatabaseError as e:
@@ -69,14 +71,21 @@ def init(request):
 
 def populate(request):
     try:
+        placeholders = ', '.join(['(%s, %s, %s, %s, %s)'] * len(MOVIES_DATA))
         query = f"""
         INSERT INTO {{}} ("episode_nb", "title", "director", "producer", "release_date")
-        VALUES {', '.join('(%s, %s, %s, %s, %s)' for _ in range(len(MOVIES_DATA)))};
+        VALUES {placeholders};
         """
         formated_data = []
         for movie in MOVIES_DATA:
-            ordered_movie_fields = [movie['episode_nb'],movie['title'], movie['director'], movie['producer'], movie['release_date']]
-            formated_data.extend(ordered_movie_fields)
+            formated_data.extend([
+                movie['episode_nb'],
+                movie['title'],
+                movie['director'],
+                movie['producer'],
+                movie['release_date']
+            ])
+
         with connection.cursor() as cursor:
             cursor.execute(
                 sql.SQL(query).format(sql.Identifier(MOVIES_TABLE_NAME)),
@@ -85,4 +94,24 @@ def populate(request):
         return HttpResponse("OK")
     except DatabaseError as e:
         return HttpResponse(f"An error occured: {e}", status=500)
+
+
+def display(request):
+    context = {}
+    context['is_ok'] = True
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                sql.SQL("SELECT * FROM {}").format(
+                    sql.Identifier(MOVIES_TABLE_NAME)
+                    )
+                )
+            context['data'] = cursor.fetchall()
+            if context['data'] == []:
+                context['is_ok'] = False
+                context['data'] = None
+    except DatabaseError:
+        context['is_ok'] = False
+    context['error_msg'] = "No data available"
+    return render(request, 'ex02/display_movies.html', context)
 
