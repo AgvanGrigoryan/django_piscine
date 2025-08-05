@@ -1,7 +1,17 @@
 from django.shortcuts import render, HttpResponse
 from django.db import connection, DatabaseError
 from psycopg2 import sql
-from sql.templates import MOVIES_TABLE_SQL_TEMPLATE
+
+MOVIES_TABLE_SQL_TEMPLATE = sql.SQL("""
+CREATE TABLE IF NOT EXISTS {} (
+    episode_nb INTEGER PRIMARY KEY,
+    title VARCHAR(64) NOT NULL UNIQUE,
+    opening_crawl TEXT,
+    director VARCHAR(32) NOT NULL,
+    producer VARCHAR(128) NOT NULL,
+    release_date DATE NOT NULL
+);
+""")
 
 def init(request):
     try:
