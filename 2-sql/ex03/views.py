@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.db import DatabaseError
 from .models import Movies
 
-MOVIES_TABLE_NAME='ex02_movies'
+MOVIES_TABLE_NAME='ex03_movies'
 
 MOVIES_DATA = [
     {
