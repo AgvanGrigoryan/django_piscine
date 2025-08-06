@@ -135,30 +135,36 @@ def remove(request):
         movies, _ = get_all_movies(MOVIES_TABLE_NAME)
         if not movies:
             return HttpResponse("No data available")
-        choices = [(movie[1], movie[1]) for movie in movies]
-        form = MovieSelectForm(choices, request.POST)
     except DatabaseError as e:
         return HttpResponse(f"An error occured: {e}", status=500)
 
+    choices = [(movie[1], movie[1]) for movie in movies]
+    form = MovieSelectForm(choices, request.POST or None)
+
     if request.method == "GET":
         msg = request.GET.get('msg')
-        return render(request, 'ex04/select_movie.html', {'form': form, 'msg': msg})
+        return render(request, 'ex04/select_movie.html', {
+            'form': form,
+            'msg': msg
+        })
 
-    elif request.method == "POST" and form.is_valid():
-        try:
-            movie_title = form.cleaned_data['movie']
-            msg = f"The Movie({movie_title}) deleted."
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    sql.SQL("DELETE FROM {} WHERE title=%s").format(
-                        sql.Identifier(MOVIES_TABLE_NAME)
-                    ),
-                    [movie_title]
-                )
-            url = reverse('delete_movie')
-            query_string = urlencode({'msg': msg})
-            return redirect(f"{url}?{query_string}")
-        except DatabaseError as e:
-            return HttpResponse(f"An error occured: {e}", status=500)
-    else:
-        return HttpResponse("The form you submitted is invalid!")
+    elif request.method == "POST":
+        if form.is_valid():
+            try:
+                movie_title = form.cleaned_data['movie']
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        sql.SQL("DELETE FROM {} WHERE title=%s").format(
+                            sql.Identifier(MOVIES_TABLE_NAME)
+                        ),
+                        [movie_title]
+                    )
+                url = reverse('delete_movie')
+                msg = f"The Movie({movie_title}) deleted."
+                query_string = urlencode({'msg': msg})
+                return redirect(f"{url}?{query_string}")
+            except DatabaseError as e:
+                return HttpResponse(f"An error occured: {e}", status=500)
+        else:
+            return HttpResponse("The form you submitted is invalid!")
+    return HttpResponse("Unsupported request method.", status=405)
