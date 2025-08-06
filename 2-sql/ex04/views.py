@@ -128,7 +128,7 @@ def display(request):
     except DatabaseError:
         context['is_ok'] = False
     context['error_msg'] = "No data available"
-    return render(request, 'ex02/display_movies.html', context)
+    return render(request, 'ex04/display_movies.html', context)
 
 def remove(request):
     try:
