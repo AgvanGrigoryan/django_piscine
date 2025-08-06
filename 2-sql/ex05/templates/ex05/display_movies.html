@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Movies</title>
+    <style>
+        td {
+            box-shadow: 0 0 4px #ccc;
+            
+        }
+        tr {
+            box-shadow: 0 0 4px #5a5;
+        }
+    </style>
+</head>
+<body>
+    {% if is_ok is True %}
+    <table class="movies_table">
+        <thead>
+            <tr>
+                <th>Episode_nb</th>
+                <th>Title</th>
+                <th>Opening_crawl</th>
+                <th>Director</th>
+                <th>Producer</th>
+                <th>Release_date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in data %}
+            <tr>
+                <td>{{ movie.episode_nb|default_if_none:"" }}</td>
+                <td>{{ movie.title|default_if_none:"" }}</td>
+                <td>{{ movie.opening_crawl|default_if_none:"" }}</td>
+                <td>{{ movie.director|default_if_none:"" }}</td>
+                <td>{{ movie.producer|default_if_none:"" }}</td>
+                <td>{{ movie.release_date|default_if_none:"" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>{{error_msg}}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Movie To Delete</title>
+</head>
+<body>
+    {% if msg %}
+    <h1 style="color: #c33;">{{ msg }}</h1>
+    <hr>
+    {% endif %}
+    <form action="{% url 'delete_movie_05' %}" method="POST">
+        {% csrf_token %}
+        {{ form.movie.label_tag }} {{ form.movie }}
+        <input type="submit" value="remove">
+    </form>
+</body>
+</html>
