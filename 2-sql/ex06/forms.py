@@ -2,6 +2,7 @@ from django import forms
 
 class MovieSelectForm(forms.Form):
     movie = forms.ChoiceField(choices=[], label="Select Movie To Delete")
+    opening_crawl = forms.CharField(widget=forms.Textarea, label="Opening Crawl")
 
     def __init__(self, movie_choices=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

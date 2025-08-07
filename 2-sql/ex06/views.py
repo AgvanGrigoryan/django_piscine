@@ -149,3 +149,47 @@ def display(request):
         context['is_ok'] = False
     context['error_msg'] = "No data available"
     return render(request, 'ex06/display_movies.html', context)
+
+
+def update(request):
+    try:
+        movies, _ = get_all_movies(MOVIES_TABLE_NAME)
+        if not movies:
+            return HttpResponse("No data available")
+    except DatabaseError as e:
+        return HttpResponse(f"An error occured: {e}", status=500)
+
+    choices = [(movie[1], movie[1]) for movie in movies]
+    form = MovieSelectForm(choices, request.POST or None)
+
+    if request.method == "GET":
+        msg = request.GET.get('msg')
+        return render(request, 'ex06/update_movie.html', {
+            'form': form,
+            'msg': msg
+        })
+
+    elif request.method == "POST":
+        if form.is_valid():
+            try:
+                movie_title = form.cleaned_data['movie']
+                opening_crawl_new_value = form.cleaned_data['opening_crawl']
+                print(opening_crawl_new_value)
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        sql.SQL("UPDATE {} SET opening_crawl=%s WHERE title=%s").format(
+                            sql.Identifier(MOVIES_TABLE_NAME)
+                        ),
+                        [opening_crawl_new_value, movie_title]
+                    )
+                url = reverse('update_movie_06')
+                msg = f"The Movie({movie_title}) has updated."
+                query_string = urlencode({'msg': msg})
+                return redirect(f"{url}?{query_string}")
+            except DatabaseError as e:
+                return HttpResponse(f"An error occured: {e}", status=500)
+        else:
+            return HttpResponse("The form you submitted is invalid!")
+    return HttpResponse("Unsupported request method.", status=405)
+
+
