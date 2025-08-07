@@ -103,30 +103,26 @@ def init(request):
         return HttpResponse(f"An error occured: {e}", status=500)
 
 def populate(request):
-    try:
-        placeholders = ', '.join(['(%s, %s, %s, %s, %s)'] * len(MOVIES_DATA))
-        query = f"""
-        INSERT INTO {{}} ("episode_nb", "title", "director", "producer", "release_date")
-        VALUES {placeholders};
-        """
-        formated_data = []
-        for movie in MOVIES_DATA:
-            formated_data.extend([
+    query = sql.SQL(f"""
+    INSERT INTO {{}} ("episode_nb", "title", "director", "producer", "release_date")
+    VALUES (%s, %s, %s, %s, %s);
+    """).format(sql.Identifier(MOVIES_TABLE_NAME))
+
+    results = []
+    for movie in MOVIES_DATA:
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(query, [
                 movie['episode_nb'],
                 movie['title'],
                 movie['director'],
                 movie['producer'],
                 movie['release_date']
             ])
-
-        with connection.cursor() as cursor:
-            cursor.execute(
-                sql.SQL(query).format(sql.Identifier(MOVIES_TABLE_NAME)),
-                formated_data
-            )
-        return HttpResponse("OK")
-    except DatabaseError as e:
-        return HttpResponse(f"An error occured: {e}", status=500)
+            results.append(f"{movie['title']}: OK")
+        except DatabaseError as e:
+            results.append(f"{movie['title']}: Error: {e}")
+    return HttpResponse("<br>".join(results))
 
 def get_all_movies(table_name: str):
     with connection.cursor() as cursor:
