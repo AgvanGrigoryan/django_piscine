@@ -146,7 +146,6 @@ def display(request):
     context['error_msg'] = "No data available"
     return render(request, 'ex06/display_movies.html', context)
 
-
 def update(request):
     try:
         movies, _ = get_all_movies(MOVIES_TABLE_NAME)
@@ -170,7 +169,6 @@ def update(request):
             try:
                 movie_title = form.cleaned_data['movie']
                 opening_crawl_new_value = form.cleaned_data['opening_crawl']
-                print(opening_crawl_new_value)
                 with connection.cursor() as cursor:
                     cursor.execute(
                         sql.SQL("UPDATE {} SET opening_crawl=%s WHERE title=%s").format(
@@ -187,5 +185,3 @@ def update(request):
         else:
             return HttpResponse("The form you submitted is invalid!")
     return HttpResponse("Unsupported request method.", status=405)
-
-
