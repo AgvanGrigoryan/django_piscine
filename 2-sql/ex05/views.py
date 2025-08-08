@@ -60,12 +60,14 @@ MOVIES_DATA = [
 ]
 
 def populate(request):
-    try:
-        for movie in MOVIES_DATA:
+    results = []
+    for movie in MOVIES_DATA:
+        try:
             m = Movies.objects.create(**movie)
-        return HttpResponse("OK")
-    except DatabaseError as e:
-        return HttpResponse(f"An error occured: {e}", status=500)
+            results.append(f"{movie['title']}: OK")
+        except DatabaseError as e:
+            results.append(f"{movie['title']}: Error:{e}")
+    return HttpResponse("<br>".join(results))
 
 def display(request):
     context = {}
