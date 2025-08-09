@@ -4,6 +4,8 @@ from psycopg2 import sql
 from django.urls import reverse
 from urllib.parse import urlencode
 import pathlib
+from psycopg2.errors import UniqueViolation
+from io import StringIO
 
 BASE_DIR = pathlib.Path(__file__).parent
 
@@ -54,18 +56,50 @@ def init(request):
     except DatabaseError as e:
         return HttpResponse(f"An error occured: {e}", status=500)
 
-def populate(request):
-    with open(PLANETS_CSV, mode="r") as f:
-        columns = tuple(f.readline().strip().split(','))
-        with connection.cursor() as cursor:
-            cursor.copy_from(f, PLANETS_TABLE_NAME, sep=',', columns=columns)
+def insert_from_file(filename, table, sep=",") -> list[str]:
+    results = list()
+    with open(filename, mode="r") as f:
+        collection_name = filename.name
+        columns = f.readline().strip().split(',')
+        for line in f:
+            line_data = line.strip()
+            print(line_data)
+            try:
+                line_id = line_data.split(sep, maxsplit=1)[0].strip()
+            except IndexError:
+                results.append(f"{collection_name} Error: {line_data}")
+                continue
+            if not line_data:
+                continue
+            try:
+                with connection.cursor() as cursor:
+                    cursor.copy_from(
+                        StringIO(line_data + "\n"),
+                        table, sep=sep,
+                        columns=columns)
+                print(collection_name, line_id)
+                results.append(f"{collection_name} id={line_id}: OK")
+            except (DatabaseError, UniqueViolation, ) as e:
+                results.append(f"{collection_name} id={line_id}: Error: {e}")
+    return results
 
-    with open(PEOPLE_CSV, mode="r") as f:
-        columns = tuple(f.readline().strip().split(','))        
-        with connection.cursor() as cursor:
-            cursor.copy_from(f, PEOPLE_TABLE_NAME, sep=',', columns=columns)
-            
-    return HttpResponse("OK!")
+def populate(request):
+    # COPY FROM PLANETS_CSV
+    logs = insert_from_file(PLANETS_CSV, PLANETS_TABLE_NAME)
+    result = f"""
+    <h2>{PLANETS_TABLE_NAME}</h2>
+    <br>
+    {"<br>".join(logs)}
+    <hr>
+    """
+    # COPY FROM PEOPLE_CSV
+    logs = insert_from_file(PEOPLE_CSV, PEOPLE_TABLE_NAME)
+    result += f"""
+    <h2>{PEOPLE_TABLE_NAME}</h2>
+    <br>
+    {"<br>".join(logs)}
+    """
+    return HttpResponse(result)
 
 def get_all_movies(table_name: str):
     with connection.cursor() as cursor:
