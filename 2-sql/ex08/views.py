@@ -65,11 +65,9 @@ def insert_from_file(filename, table, sep=",") -> list[str]:
         columns = list(map(str.strip, reader.fieldnames))
         for row in reader:
             row = {k.strip() if isinstance(k, str) else k: v.strip() if isinstance(v, str) else v for k, v in row.items()}
-            print(row)
             try:
-                # Собираем строку для copy_from в правильном порядке колонок
                 line_data = sep.join(row[col] for col in columns)
-                line_id = row.get('id', 'name')  # если нет id, можно показать имя или другое поле
+                line_id = row.get('id', row.get('name', 'Unknown'))
             except KeyError as e:
                 results.append(f"{filename.name} Error: missing column {e}")
                 continue
@@ -80,9 +78,9 @@ def insert_from_file(filename, table, sep=",") -> list[str]:
                         table, sep=sep,
                         columns=columns)
                 print(collection_name, line_id)
-                results.append(f"{collection_name} id={line_id}: OK")
+                results.append(f"{collection_name}: {line_id}: OK")
             except (DatabaseError, UniqueViolation, ForeignKeyViolation) as e:
-                results.append(f"{collection_name} id={line_id}: Error: {e}")
+                results.append(f"{collection_name}: {line_id}: Error: {e}")
     return results
 
 def populate(request):
