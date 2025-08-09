@@ -4,8 +4,9 @@ from psycopg2 import sql
 from django.urls import reverse
 from urllib.parse import urlencode
 import pathlib
-from psycopg2.errors import UniqueViolation
+from psycopg2.errors import UniqueViolation, ForeignKeyViolation
 from io import StringIO
+import csv
 
 BASE_DIR = pathlib.Path(__file__).parent
 
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS {} (
     hair_color VARCHAR(32),
 	height INTEGER,
     mass REAL,
-    homeworld VARCHAR(64) REFERENCES {}(name)
+    homeworld VARCHAR(64) REFERENCES {}(name) ON DELETE CASCADE
 );
 """).format(sql.Identifier(PEOPLE_TABLE_NAME), sql.Identifier(PLANETS_TABLE_NAME))
 
@@ -60,16 +61,17 @@ def insert_from_file(filename, table, sep=",") -> list[str]:
     results = list()
     with open(filename, mode="r") as f:
         collection_name = filename.name
-        columns = f.readline().strip().split(',')
-        for line in f:
-            line_data = line.strip()
-            print(line_data)
+        reader = csv.DictReader(f, delimiter=sep)
+        columns = list(map(str.strip, reader.fieldnames))
+        for row in reader:
+            row = {k.strip() if isinstance(k, str) else k: v.strip() if isinstance(v, str) else v for k, v in row.items()}
+            print(row)
             try:
-                line_id = line_data.split(sep, maxsplit=1)[0].strip()
-            except IndexError:
-                results.append(f"{collection_name} Error: {line_data}")
-                continue
-            if not line_data:
+                # Собираем строку для copy_from в правильном порядке колонок
+                line_data = sep.join(row[col] for col in columns)
+                line_id = row.get('id', 'name')  # если нет id, можно показать имя или другое поле
+            except KeyError as e:
+                results.append(f"{filename.name} Error: missing column {e}")
                 continue
             try:
                 with connection.cursor() as cursor:
@@ -79,7 +81,7 @@ def insert_from_file(filename, table, sep=",") -> list[str]:
                         columns=columns)
                 print(collection_name, line_id)
                 results.append(f"{collection_name} id={line_id}: OK")
-            except (DatabaseError, UniqueViolation, ) as e:
+            except (DatabaseError, UniqueViolation, ForeignKeyViolation) as e:
                 results.append(f"{collection_name} id={line_id}: Error: {e}")
     return results
 
@@ -89,7 +91,7 @@ def populate(request):
     result = f"""
     <h2>{PLANETS_TABLE_NAME}</h2>
     <br>
-    {"<br>".join(logs)}
+    {"<br><br>".join(logs)}
     <hr>
     """
     # COPY FROM PEOPLE_CSV
@@ -97,7 +99,7 @@ def populate(request):
     result += f"""
     <h2>{PEOPLE_TABLE_NAME}</h2>
     <br>
-    {"<br>".join(logs)}
+    {"<br><br>".join(logs)}
     """
     return HttpResponse(result)
 
@@ -117,8 +119,27 @@ def display(request):
     context = {}
     context['is_ok'] = True
     try:
-        context['data'], context['is_ok'] = get_all_movies(MOVIES_TABLE_NAME)
+        with connection.cursor() as cursor:
+            cursor.execute(
+                sql.SQL("""
+                    SELECT t1.name, t1.homeworld, t2.climate 
+                    FROM {} as t1 
+                    JOIN {} as t2 ON t1.homeworld = t2.name
+                    WHERE t2.climate ILIKE %s
+                    ORDER BY t1.name ASC
+                """).format(
+                    sql.Identifier(PEOPLE_TABLE_NAME),
+                    sql.Identifier(PLANETS_TABLE_NAME)
+                ),
+                ['%windy%']
+            )
+            data = cursor.fetchall()
+            if data == []:
+                context['is_ok'] = False
+                context['data'] = None
+            else:
+                context['data'] = data
     except DatabaseError:
         context['is_ok'] = False
     context['error_msg'] = "No data available"
-    return render(request, 'ex06/display_movies.html', context)
+    return render(request, 'ex08/display_movies.html', context)

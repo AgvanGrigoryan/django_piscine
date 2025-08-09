@@ -1,3 +1,5 @@
-id,name,birth_year,gender,eye_color,hair_color,height,homeworld
-1,"Agvan","2003","male","brown","red",69,"Earth"
-2,"Bagrat","2002","male","green","brown",97,"Earth"
+name,birth_year,gender,eye_color,hair_color,height,homeworld
+Agvan,2003,male,brown,red,69, Earth
+Bagrat,2002,male,green,brown,97,Earth
+   Arevik, 1999, female, yellow, orange, 233,Earth
+John, 111, male, green, green, 123,  Mars
