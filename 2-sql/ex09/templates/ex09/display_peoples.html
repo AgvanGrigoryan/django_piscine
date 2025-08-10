@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display People</title>
+    <style>
+        td {
+            box-shadow: 0 0 4px #ccc;
+            
+        }
+        tr {
+            box-shadow: 2px 2px 5px rgb(223, 140, 32);
+        }
+    </style>
+</head>
+<body>
+    {% if is_ok is True %}
+    <table class="movies_table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Homeworld</th>
+                <th>Climate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for people in data %}
+            <tr>
+                <td>{{ people.name|safe }}</td>
+                <td>{{ people.homeworld|default_if_none:"" }}</td>
+                <td>{{ people.homeworld.climate|default_if_none:"" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>{{error_msg}}</p>
+    {% endif %}
+</body>
+</html>
