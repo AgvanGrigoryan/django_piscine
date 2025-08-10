@@ -13,7 +13,4 @@ def display(request):
     except DatabaseError:
         context['is_ok'] = False
     context['error_msg'] = "No data available, please use the following command line before use:"
-    return render(request, 'ex07/display_movies.html', context)
-
-def populate(request):
-    pass
+    return render(request, 'ex09/display_peoples.html', context)
