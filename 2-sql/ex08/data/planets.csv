@@ -1,3 +1,4 @@
 id,name,climate,diameter,orbital_period,population,rotation_period,surface_water,terrain
 1,Earth, "windy", 0, 0, 0, 0, 0, NULL
 2,Mars, "moderately windy", 0, 0, 0, 0, 0, NULL
+3,Moon, "sunny", 0, 0, 0, 0, 0, NULL

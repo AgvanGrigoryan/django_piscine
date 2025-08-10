@@ -140,4 +140,4 @@ def display(request):
     except DatabaseError:
         context['is_ok'] = False
     context['error_msg'] = "No data available"
-    return render(request, 'ex08/display_movies.html', context)
+    return render(request, 'ex08/display_peoples.html', context)
