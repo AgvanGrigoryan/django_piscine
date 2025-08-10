@@ -77,7 +77,6 @@ def insert_from_file(filename, table, sep=",") -> list[str]:
                         StringIO(line_data + "\n"),
                         table, sep=sep,
                         columns=columns)
-                print(collection_name, line_id)
                 results.append(f"{collection_name}: {line_id}: OK")
             except (DatabaseError, UniqueViolation, ForeignKeyViolation) as e:
                 results.append(f"{collection_name}: {line_id}: Error: {e}")
