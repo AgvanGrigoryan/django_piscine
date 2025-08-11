@@ -7,7 +7,7 @@ def display(request):
     context = {}
     context['is_ok'] = True
     try:
-        context['data'] = People.objects.filter(homeworld__climate__icontains="windy").order_by('name')
+        context['data'] = People.objects.select_related('homeworld').filter(homeworld__climate__icontains="windy").order_by('name')
         if not context['data'].exists():
             context['is_ok'] = False
             context['data'] = None
