@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Info</title>
+</head>
+<body>
+    {% if error_msg %}
+    <h1 style="color: #c33;">{{ error_msg }}</h1>
+    <hr>
+    {% endif %}
+    <form action="{% url 'search_info' %}" method="GET">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-row">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+
+            {% if field.errors %}
+                <div class="field-errors">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <!-- {{ form }} -->
+        <input type="submit" value="Search">
+    </form>
+    {% if not is_first_request %}
+    <ul>
+        {% if result %}
+            {% for line in result %}
+            <li>{{ line.name }} - {{ line.director }} - {{ line.gender }} - {{ line.homeworld.diameter }}</li>
+            {% endfor %}
+        {% else %}
+            <p>Nothing corresponding to your research</p>
+        {% endif %}
+    </ul>
+    {% endif %}
+</body>
+</html>
