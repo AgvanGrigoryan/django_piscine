@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from tips.views import home_page, get_username
+
 urlpatterns = [
-    path('', home_page),
+    path('', home_page, name='home_page'),
     path('api/username/', get_username, name='get_username'),
+    path('user/', include('user.urls')),
     path('admin/', admin.site.urls),
 ]
