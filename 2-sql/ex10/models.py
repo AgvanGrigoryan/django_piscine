@@ -41,6 +41,7 @@ class Movies(models.Model):
     director = models.CharField(max_length=64, null=False)
     producer = models.CharField(max_length=128, null=False)
     release_date = models.DateField(null=False)
+    characters = models.ManyToManyField(People, related_name='movies')
 
-    def __str__(self):
+    def __str__(self): 
         return self.title

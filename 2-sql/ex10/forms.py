@@ -11,7 +11,6 @@ class SearchField(forms.Form):
         super().__init__(*args, **kwargs)
         genders = People.objects.values_list('gender', flat=True).distinct()
         choices = [('', 'Any')] + [(g, g) for g in genders]
-        print(choices)
         self.fields['actor_gender'].choices = choices
 
     def clean(self):

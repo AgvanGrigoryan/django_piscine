@@ -30,9 +30,12 @@
     {% if not is_first_request %}
     <ul>
         {% if result %}
-            {% for line in result %}
-            <li>{{ line.name }} - {{ line.director }} - {{ line.gender }} - {{ line.homeworld.diameter }}</li>
-            {% endfor %}
+        <h2 style="color: green">Results: {{ number_of_results }}</h2>
+        {% for character in result %}
+        {% for movie in character.movies.all %}
+        <li>{{ movie }} - {{ character.name }} - {{ character.gender }} - {{ character.homeworld }} - {{ character.homeworld.diameter }}</li>
+        {% endfor %}
+        {% endfor %}
         {% else %}
             <p>Nothing corresponding to your research</p>
         {% endif %}
