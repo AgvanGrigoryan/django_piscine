@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block content %}
+<h1>HOME</h1>
+<p>Welcome to the home page!</p>
+<p>Here you can find various tips and resources.</p>
+<p>Feel free to explore!</p>
+{% endblock %}
 
 {% block js %}
+{% if not user.is_authenticated %}
 <script src="{% static 'tips/js/update_username.js' %}"></script>
+{% endif %}
 {% endblock %}
