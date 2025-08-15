@@ -6,6 +6,36 @@
 <p>Welcome to the home page!</p>
 <p>Here you can find various tips and resources.</p>
 <p>Feel free to explore!</p>
+
+{% if user.is_authenticated %}
+<div class="form_wrapper">
+    <h2>Create Your Tip</h2>
+    <form action="{% url 'home_page' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Tip</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="tips">
+    <h2>All Tips</h2>
+    {% if tips %}
+    <div class="tips_list">
+        {% for tip in tips %}
+        <div class="tips_item">
+            <div class="tips_item__header">
+                <h3 class="tips_item__author">{{ tip.author.username }}</h3>
+                <p class="tips_item__created_date">{{ tip.created_at }}</p>
+            </div>
+            <p class="tips_item__content">{{ tip.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No Tips</p>
+    {% endif %}
+</div>
 {% endblock %}
 
 
