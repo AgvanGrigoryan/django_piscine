@@ -1,5 +1,4 @@
-from .views import process_temp_username
+from .views import get_display_username
 
 def temp_username_processor(request):
-    username = process_temp_username(request.session)
-    return {'username': username}
+    return {'username': get_display_username(request)}

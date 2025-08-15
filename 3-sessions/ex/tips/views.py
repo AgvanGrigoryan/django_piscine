@@ -4,30 +4,23 @@ from django.conf import settings
 import random
 import time
 
-def process_temp_username(session):
-    is_username_expired = False
-    username = session.get('username', None)
-    username_created_at = session.get('username_created', 0)
+def get_display_username(request):
+    if request.user.is_authenticated:
+        return request.user.username
 
-    if username_created_at != 0:
-        if time.time() - username_created_at >= settings.USERNAME_EXPIRATION_SEC:
-            is_username_expired = True
-    
-    if (
-        username is None or
-        username_created_at == 0 or
-        is_username_expired
-    ):
-        session['username'] = random.choice(settings.AVAILABLE_USERNAMES)
-        session['username_created'] = time.time()
-    return session.get('username', "Unknown")
+    username = request.session.get('username', None)
+    created_at = request.session.get('username_created_at', 0)
 
-def get_temp_username(request):
-    username = process_temp_username(request.session)
-    return JsonResponse({'username': username})
+    is_expired = created_at == 0 or time.time() - created_at >= settings.USERNAME_EXPIRATION_SEC
+    if username is None or is_expired:
+        username = random.choice(settings.AVAILABLE_USERNAMES)
+        request.session['username'] = username
+        request.session['username_created_at'] = time.time()
+
+    return username
+
+def username_api(request):
+    return JsonResponse({'username': get_display_username(request)})
 
 def home_page(request):
-    username = process_temp_username(request.session)
-
-
-    return render(request, 'tips/home.html', {'username': username})
+    return render(request, 'tips/home.html')

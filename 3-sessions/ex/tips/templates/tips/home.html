@@ -8,8 +8,4 @@
 <p>Feel free to explore!</p>
 {% endblock %}
 
-{% block js %}
-{% if not user.is_authenticated %}
-<script src="{% static 'tips/js/update_username.js' %}"></script>
-{% endif %}
-{% endblock %}
+
