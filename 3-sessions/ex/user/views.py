@@ -10,7 +10,8 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return redirect('home_page')
     else:
         form = RegisterForm()
@@ -18,7 +19,6 @@ def register_view(request):
     return render(request, 'user/registration.html', context)
 
 def login_view(request):
-    # Redirect authenticated users to home page
     if request.user.is_authenticated:
         return redirect('home_page')
         
@@ -33,7 +33,7 @@ def login_view(request):
                 return redirect('home_page')
             else:
                 form.add_error(None, "Invalid username or password")
-                return redirect('login')
+                return render(request, 'user.login.html', {'form': form})
     else:
         form = LoginForm()
     context = {'form': form}
