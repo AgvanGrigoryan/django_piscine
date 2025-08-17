@@ -29,6 +29,27 @@
                 <p class="tips_item__created_date">{{ tip.created_at }}</p>
             </div>
             <p class="tips_item__content">{{ tip.content }}</p>
+            <div class="tips_item__stats">
+                <p class="tips_item_votes">👍 {{ tip.upvotes_count }} | 👎 {{ tip.downvotes_count }}</p>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="tip_item_actions">
+                <p>
+                    <form action="{% url 'upvote_view' tip.pk %}" method="post" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit">Upvote</button>
+                    </form>
+                    <form action="{% url 'downvote_view' tip.pk %}" method="post" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit">DownVote</button>
+                    </form>
+                    <form action="{% url 'delete_tip_view' tip.pk %}" method="post" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </p>
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

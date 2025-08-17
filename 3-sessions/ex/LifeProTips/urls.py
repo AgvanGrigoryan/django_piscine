@@ -21,6 +21,7 @@ from tips.views import home_page, username_api
 urlpatterns = [
     path('', home_page, name='home_page'),
     path('api/username/', username_api, name='username_api'),
+    path('tip/', include('tips.urls')),
     path('user/', include('user.urls')),
     path('admin/', admin.site.urls),
 ]

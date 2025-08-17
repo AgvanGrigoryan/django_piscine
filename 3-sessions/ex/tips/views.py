@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.conf import settings
+from django.db.models import Count, Q
 import random
 import time
 from .models import Tip
@@ -37,5 +39,42 @@ def home_page(request):
         return render(request, 'tips/home.html', {'form': form})
         return HttpResponse("OLA")
     form = TipCreatingForm()
-    tips = Tip.objects.all().select_related('author')
+    tips = Tip.objects.all().select_related('author').annotate(
+        upvotes_count=Count('votes', filter=Q(votes__is_upvoted=True)),
+        downvotes_count=Count('votes', filter=Q(votes__is_upvoted=False)),
+    )
     return render(request, 'tips/home.html', {'form': form, 'tips': tips})
+
+
+# Tips Voting
+@login_required
+def upvote_view(request, pk):
+    if request.method == 'GET':
+        return redirect('home_page')
+    try:
+        tip = Tip.objects.get(pk=pk)
+        tip.upvote(request.user)
+        return redirect('home_page')
+    except Tip.DoesNotExist:
+        return HttpResponse(f"Tip by id {pk} not found", 404)
+
+@login_required
+def downvote_view(request, pk):
+    if request.method == 'GET':
+        return redirect('home_page')
+    try:
+        tip = Tip.objects.get(pk=pk)
+        tip.downvote(request.user)
+        return redirect('home_page')
+    except Tip.DoesNotExist:
+        return HttpResponse(f"Tip by id {pk} not found", 404)
+
+@login_required
+def delete_tip_view(request, pk):
+    if request.method == 'GET':
+        return redirect('home_page')
+    try:
+        Tip.objects.get(pk=pk).delete()
+        return redirect('home_page')
+    except Tip.DoesNotExist:
+        return HttpResponse(f"Tip by id {pk} not found", 404)
