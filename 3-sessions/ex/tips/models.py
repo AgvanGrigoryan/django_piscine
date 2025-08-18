@@ -7,6 +7,11 @@ class Tip(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
 
+    class Meta:
+        permissions = [
+            ('can_downvote', 'Can downvote tips')
+        ]
+
     def __vote(self, user, vote_type: bool):
         try:
             vote = self.votes.get(user=user)
@@ -32,8 +37,6 @@ class Tip(models.Model):
 
     def downvotes_count(self):
         self.votes.filter(is_upvoted=False).count()
-
-
 
 class Vote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes')

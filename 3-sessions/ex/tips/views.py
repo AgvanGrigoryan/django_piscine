@@ -7,6 +7,7 @@ import random
 import time
 from .models import Tip
 from .forms import TipCreatingForm
+from .decorators import author_or_has_permission
 
 def get_display_username(request):
     if request.user.is_authenticated:
@@ -58,6 +59,7 @@ def upvote_view(request, pk):
         return HttpResponse(f"Tip by id {pk} not found", status=404)
 
 @login_required
+@author_or_has_permission('tips.can_downvote')
 def downvote_view(request, pk):
     if request.method == 'GET':
         return redirect('home_page')
@@ -69,15 +71,13 @@ def downvote_view(request, pk):
         return HttpResponse(f"Tip by id {pk} not found", status=404)
 
 @login_required
+@author_or_has_permission('tips.delete_tip')
 def delete_tip_view(request, pk):
     if request.method == 'GET':
         return redirect('home_page')
     try:
         tip = Tip.objects.get(pk=pk)
-        if tip.author == request.user or request.user.has_perm('tips.delete_tip'):
-            tip.delete()
-        else:
-            return HttpResponseForbidden("You don't have permission to delete this tip.")
+        tip.delete()
         return redirect('home_page')
     except Tip.DoesNotExist:
         return HttpResponse(f"Tip by id {pk} not found", status=404)
