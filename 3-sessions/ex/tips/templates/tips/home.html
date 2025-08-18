@@ -43,10 +43,12 @@
                         {% csrf_token %}
                         <button type="submit">DownVote</button>
                     </form>
+                    {% if user == tip.author or perms.tips.delete_tip %}
                     <form action="{% url 'delete_tip_view' tip.pk %}" method="post" style="display:inline">
                         {% csrf_token %}
                         <button type="submit">Delete</button>
                     </form>
+                    {% endif %}
                 </p>
             </div>
             {% endif %}

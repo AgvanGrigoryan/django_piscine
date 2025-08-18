@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.conf import settings
 from django.db.models import Count, Q
 import random
@@ -27,6 +27,10 @@ def username_api(request):
     return JsonResponse({'username': get_display_username(request)})
 
 def home_page(request):
+    tips = Tip.objects.all().select_related('author').annotate(
+        upvotes_count=Count('votes', filter=Q(votes__is_upvoted=True)),
+        downvotes_count=Count('votes', filter=Q(votes__is_upvoted=False)),
+    )
     if request.method == "POST" and request.user.is_authenticated:
         form = TipCreatingForm(request.POST)
         if form.is_valid():
@@ -35,14 +39,9 @@ def home_page(request):
             tip.save()
             return redirect('home_page')
         else:
-            form.add_error("Your Form is Invalid")
-        return render(request, 'tips/home.html', {'form': form})
-        return HttpResponse("OLA")
+            form.add_error(None, "Your Form is Invalid")
+        return render(request, 'tips/home.html', {'form': form, 'tips': tips})
     form = TipCreatingForm()
-    tips = Tip.objects.all().select_related('author').annotate(
-        upvotes_count=Count('votes', filter=Q(votes__is_upvoted=True)),
-        downvotes_count=Count('votes', filter=Q(votes__is_upvoted=False)),
-    )
     return render(request, 'tips/home.html', {'form': form, 'tips': tips})
 
 
@@ -56,7 +55,7 @@ def upvote_view(request, pk):
         tip.upvote(request.user)
         return redirect('home_page')
     except Tip.DoesNotExist:
-        return HttpResponse(f"Tip by id {pk} not found", 404)
+        return HttpResponse(f"Tip by id {pk} not found", status=404)
 
 @login_required
 def downvote_view(request, pk):
@@ -67,14 +66,18 @@ def downvote_view(request, pk):
         tip.downvote(request.user)
         return redirect('home_page')
     except Tip.DoesNotExist:
-        return HttpResponse(f"Tip by id {pk} not found", 404)
+        return HttpResponse(f"Tip by id {pk} not found", status=404)
 
 @login_required
 def delete_tip_view(request, pk):
     if request.method == 'GET':
         return redirect('home_page')
     try:
-        Tip.objects.get(pk=pk).delete()
+        tip = Tip.objects.get(pk=pk)
+        if tip.author == request.user or request.user.has_perm('tips.delete_tip'):
+            tip.delete()
+        else:
+            return HttpResponseForbidden("You don't have permission to delete this tip.")
         return redirect('home_page')
     except Tip.DoesNotExist:
-        return HttpResponse(f"Tip by id {pk} not found", 404)
+        return HttpResponse(f"Tip by id {pk} not found", status=404)
