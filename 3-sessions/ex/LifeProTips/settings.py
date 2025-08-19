@@ -87,6 +87,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL = 'user.CustomUser'
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -130,3 +132,9 @@ AVAILABLE_USERNAMES = [
     'Satenik', 'Ani', 'Bella', 'Mary', 'Suzanna'
 ]
 USERNAME_EXPIRATION_SEC = 42
+
+
+REPUTATION_UPVOTE_POINTS = 5
+REPUTATION_DOWNVOTE_POINTS = -2
+REPUTATION_DOWNVOTE_UNLOCK = 15
+REPUTATION_DELETE_UNLOCK = 30

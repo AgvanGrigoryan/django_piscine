@@ -54,6 +54,7 @@ def upvote_view(request, pk):
     try:
         tip = Tip.objects.get(pk=pk)
         tip.upvote(request.user)
+        tip.author.add_reputation(settings.REPUTATION_UPVOTE_POINTS)
         return redirect('home_page')
     except Tip.DoesNotExist:
         return HttpResponse(f"Tip by id {pk} not found", status=404)
@@ -66,12 +67,13 @@ def downvote_view(request, pk):
     try:
         tip = Tip.objects.get(pk=pk)
         tip.downvote(request.user)
+        tip.author.add_reputation(settings.REPUTATION_DOWNVOTE_POINTS)
         return redirect('home_page')
     except Tip.DoesNotExist:
         return HttpResponse(f"Tip by id {pk} not found", status=404)
 
 @login_required
-@author_or_has_permission('tips.delete_tip')
+@author_or_has_permission('tips.can_delete_tips')
 def delete_tip_view(request, pk):
     if request.method == 'GET':
         return redirect('home_page')

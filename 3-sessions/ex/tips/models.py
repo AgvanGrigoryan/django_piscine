@@ -4,12 +4,13 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 class Tip(models.Model):
     content = models.TextField(blank=False, null=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tips')
     created_at = models.DateField(auto_now_add=True)
 
     class Meta:
         permissions = [
-            ('can_downvote', 'Can downvote tips')
+            ('can_downvote', 'Can downvote tips'),
+            ('can_delete_tips', 'Can delete tips'),
         ]
 
     def __vote(self, user, vote_type: bool):
