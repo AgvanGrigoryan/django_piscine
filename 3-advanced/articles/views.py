@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import RedirectView, ListView
-from django.contrib.auth.views import LoginView
+from django.shortcuts import render, HttpResponse
+from django.views.generic import RedirectView, ListView, DetailView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Article
 
@@ -14,7 +15,28 @@ class ArticleListView(ListView):
     context_object_name = 'articles'
     # paginate_by = 10
 
+class MyArticleListView(LoginRequiredMixin, ListView):
+    model = Article
+    template_name = 'articles/my_article_list.html'
+    context_object_name = 'articles'
+    login_url = 'login-view'
+    redirect_field_name = 'next'
+    # paginate_by = 10
+
+    def get_queryset(self):
+        return Article.objects.filter(author=self.request.user)
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'articles/article_detail.html'
+    context_object_name = 'article'
+
+
 class UserLoginView(LoginView):
     template_name = 'articles/login.html'
     redirect_authenticated_user = True
-    next_page = reverse_lazy('home')
+    # next_page = reverse_lazy('home-view')
+
+class UserLogoutView(LogoutView):
+    pass
