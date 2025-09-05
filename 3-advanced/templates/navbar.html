@@ -2,6 +2,7 @@
     <ul>
         <li><a href="{% url 'article-list' %}">Home</a></li>
         <li><a href="{% url 'my-articles' %}">My Articles</a></li>
+        <li><a href="{% url 'favourites' %}">Favorites</a></li>
         <li id="auth-li">
             {% if user.is_authenticated %}
             <div>{{ user.username }}</div>
