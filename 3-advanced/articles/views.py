@@ -24,7 +24,11 @@ class MyArticleListView(LoginRequiredMixin, ListView):
     # paginate_by = 10
 
     def get_queryset(self):
-        return Article.objects.filter(author=self.request.user)
+        return (
+            Article.objects
+            .filter(author=self.request.user)
+            .select_related('author')
+        )
 
 
 class ArticleDetailView(DetailView):
@@ -35,12 +39,16 @@ class ArticleDetailView(DetailView):
 class FavouritesListView(LoginRequiredMixin, ListView):
     model = UserFavouriteArticle
     template_name = 'articles/favourite_articles.html'
-    context_object_name = 'favourites'
+    context_object_name = 'articles'
     login_url = 'login-view'
     redirect_field_name = 'next'
 
     def get_queryset(self):
-        return UserFavouriteArticle.objects.filter(user=self.request.user)
+        return (
+            Article.objects
+            .filter(favourited_by__user=self.request.user)
+            .select_related('author')
+        )
 
 class UserLoginView(LoginView):
     template_name = 'articles/login.html'

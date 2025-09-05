@@ -22,7 +22,7 @@ class UserFavouriteArticle(models.Model):
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
-        related_name='favorited_by'
+        related_name='favourited_by'
     )
 
     def __str__(self):

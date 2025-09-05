@@ -3,10 +3,10 @@
 {% block content %}
 <h1>Favourite Articles</h1>
 <ul>
-    {% for favourite in favourites %}
+    {% for article in articles %}
         <li>
-            <a href="{% url 'article-detail' favourite.article.pk %}">
-                {{ favourite.article.author }} | {{ favourite.article.title }}
+            <a href="{% url 'article-detail' article.pk %}">
+                {{ article.author }} | {{ article.title }}
             </a>
         </li>
     {% empty %}
