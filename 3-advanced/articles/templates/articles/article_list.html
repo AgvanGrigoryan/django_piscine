@@ -1,21 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Articles</title>
-</head>
-<body>
-
-    <h1>All Articles</h1>
-    {% if user.is_authenticated %}
-        <h2>{{ user.username }}</h2>
-        <form action="{% url 'logout-view' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">LOGOUT2</button>
-        </form>
-    {% else %}
-        <a href="{% url 'login-view' %}">LOGIN PAGE</a> 
-    {% endif %}
+{% extends 'base.html' %}
+{% block title %}All articles{% endblock %}
+{% block content %}
+<h1>All Articles</h1>
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
@@ -42,5 +28,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}
