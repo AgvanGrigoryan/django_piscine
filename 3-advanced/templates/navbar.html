@@ -1,11 +1,14 @@
 <nav aria-label="Main navigation">
     <ul>
-        <li><a href="{% url 'article-list' %}">Home</a></li>
-        <li><a href="{% url 'my-articles' %}">My Articles</a></li>
-        <li><a href="{% url 'favourites' %}">Favorites</a></li>
+        <li><a href="{% url 'home-view' %}">Home</a></li>
+        <li><a href="{% url 'article-list' %}">Last Articles</a></li>
         <li id="auth-li">
             {% if user.is_authenticated %}
-            <div>{{ user.username }}</div>
+            <div><a href="{% url 'favourites' %}">Favorites</a></div>
+            <div><a href="{% url 'my-articles' %}">My Articles</a></div>
+
+            <div>Logged as {{ user.username }}</div>
+            <!-- {# 'Logout Form' $} -->
             <form action="{% url 'logout-view' %}" method="post">
                 {% csrf_token %}
                 <button type="submit">logout</button>

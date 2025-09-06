@@ -14,20 +14,19 @@ class ArticleListView(ListView):
     model = Article
     template_name = 'articles/article_list.html'
     context_object_name = 'articles'
-    # paginate_by = 10
 
 class MyArticleListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = 'articles/my_article_list.html'
     context_object_name = 'articles'
     redirect_field_name = 'next'
-    # paginate_by = 10
 
     def get_queryset(self):
         return (
             Article.objects
             .filter(author=self.request.user)
             .select_related('author')
+            .order_by('-created')
         )
 
 class ArticleDetailView(DetailView):
@@ -58,6 +57,7 @@ class FavouritesListView(LoginRequiredMixin, ListView):
             Article.objects
             .filter(favourited_by__user=self.request.user)
             .select_related('author')
+            .order_by('-created')
         )
 
 class PublishArticleView(LoginRequiredMixin, CreateView):
@@ -77,11 +77,10 @@ class AddFavouriteView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'next'
     template_name = 'articles/add_favourite.html'
 
-    # def get_form(self, form_class=None):
-    #     form = super().get_form(form_class)
-    #     form.fields['article'].initial = self.kwargs['pk']
-    #     print(">>> Initial data: ", form)
-    #     return form
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['article'].initial = self.kwargs['pk']
+        return form
     
     def form_valid(self, form):
         form.instance.user = self.request.user

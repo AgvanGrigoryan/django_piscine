@@ -9,6 +9,7 @@
             <th>Title</th>
             <th>Author</th>
             <th>Created</th>
+            <th>Published</th>
             <th>Synopsis</th>
             <th>Detail</th>
         </tr>
@@ -19,8 +20,9 @@
             <td>{{ article.title }}</td>
             <td>{{ article.author.username }}</td>
             <td>{{ article.created }}</td>
-            <td>{{ article.synopsis }}</td>
-            <td><a href="{% url 'article-detail' article.pk %}">Detail</a></td>
+            <td>{{ article.created|timesince }} ago</td>
+            <td>{{ article.synopsis|truncatechars:20 }}</td>
+            <td><a href="{% url 'article-detail' article.pk %}" title="View Details">Detail</a></td>
         </tr>
         {% empty %}
         <tr>
