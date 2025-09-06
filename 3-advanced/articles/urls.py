@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, ArticleListView, ArticleDetailView, MyArticleListView, FavouritesListView, PublishArticleView
+from .views import HomeView, ArticleListView, ArticleDetailView, MyArticleListView, FavouritesListView, PublishArticleView, AddFavouriteView
 
 urlpatterns = [
     path('', ArticleListView.as_view(), name='article-list'),
@@ -7,5 +7,6 @@ urlpatterns = [
     path('mine/', MyArticleListView.as_view(), name='my-articles'),
     path('favourites/', FavouritesListView.as_view(), name='favourites'),
     path('publish/', PublishArticleView.as_view(), name='publish'),
+    path('<int:pk>/add_favourite/', AddFavouriteView.as_view(), name='add-favourite'),
 ]
 

@@ -17,7 +17,7 @@ class UserFavouriteArticle(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='favorite_articles'
+        related_name='favourite_articles'
     )
     article = models.ForeignKey(
         Article,

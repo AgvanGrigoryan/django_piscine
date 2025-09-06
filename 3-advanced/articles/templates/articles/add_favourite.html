@@ -2,21 +2,13 @@
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
 <h1>{{ article.title }}</h1>
-{% if already_favourite %}
+{% if article in user.favourite_articles.all %}
     <p>⭐ Already in favourites</p>
 {% else %}
     <form action="{% url 'add-favourite' article.pk %}" method="post">
         {% csrf_token %}
-        {{ add_favourite_form.as_p }}
+        {{ form.as_p }}
         <button type="submit">Add to favourites</button>
     </form>
 {% endif %}
-<p><strong>Author:</strong> {{ article.author }}</p>
-<p><strong>Published:</strong> {{ article.created|date:"Y-m-d H:i" }}</p>
-<div>
-    {{ article.content }}
-</div>
-
-<hr>
-<a href="javascript:history.back()">Back to list</a>
 {% endblock %}
