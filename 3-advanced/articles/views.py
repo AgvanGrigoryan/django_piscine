@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from django.views.generic import RedirectView, ListView, DetailView
+from django.views.generic import RedirectView, ListView, DetailView, CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -49,11 +49,3 @@ class FavouritesListView(LoginRequiredMixin, ListView):
             .filter(favourited_by__user=self.request.user)
             .select_related('author')
         )
-
-class UserLoginView(LoginView):
-    template_name = 'articles/login.html'
-    redirect_authenticated_user = True
-    # next_page = reverse_lazy('home-view')
-
-class UserLogoutView(LogoutView):
-    pass

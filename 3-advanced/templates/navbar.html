@@ -11,7 +11,8 @@
                 <button type="submit">logout</button>
             </form>
             {% else %}
-                <a href="{% url 'login-view' %}">login</a> 
+                <a href="{% url 'login-view' %}">login</a>
+                <a href="{% url 'register-view' %}">Register</a>
             {% endif %}
         </li>
     </ul>
