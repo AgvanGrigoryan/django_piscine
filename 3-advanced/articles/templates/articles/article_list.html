@@ -2,30 +2,31 @@
 {% block title %}All articles{% endblock %}
 {% block content %}
 <h1>All Articles</h1>
-    <table border="1" cellpadding="5" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Created</th>
-                <th>Synopsis</th>
-                <th>Detail</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for article in articles %}
-            <tr>
-                <td>{{ article.title }}</td>
-                <td>{{ article.author.username }}</td>
-                <td>{{ article.created }}</td>
-                <td>{{ article.synopsis }}</td>
-                <td><a href="{% url 'article-detail' article.pk %}">Detail</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">No articles found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<h2><a href="{% url 'publish' %}">Create Article</a></h2>
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Created</th>
+            <th>Synopsis</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in articles %}
+        <tr>
+            <td>{{ article.title }}</td>
+            <td>{{ article.author.username }}</td>
+            <td>{{ article.created }}</td>
+            <td>{{ article.synopsis }}</td>
+            <td><a href="{% url 'article-detail' article.pk %}">Detail</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No articles found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
