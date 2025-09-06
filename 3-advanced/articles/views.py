@@ -53,7 +53,7 @@ class PublishArticleView(LoginRequiredMixin, CreateView):
     form_class = PublishForm
     redirect_field_name = 'next'
     template_name = 'articles/publish_article.html'
-    success_url = reverse_lazy('article-list')
+    success_url = reverse_lazy('my-articles')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
