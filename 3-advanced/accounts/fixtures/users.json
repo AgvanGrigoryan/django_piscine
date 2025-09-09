@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$1000000$1m0Mq0CQrhKLORK5UrxnGJ$4ac+llZ/O6Ni26XHznvOwRmk5fHo3LDGm4tyVrsweE0=",
-    "last_login": "2025-08-31T15:26:05.034Z",
+    "last_login": "2025-09-09T18:36:29.406Z",
     "is_superuser": true,
     "username": "agvan",
     "first_name": "",
@@ -22,7 +22,7 @@
   "pk": 3,
   "fields": {
     "password": "pbkdf2_sha256$1000000$5iK0GxL4XWCvTXvmebaZLk$z67Q7QZWjMM1GI6WT1g/UkxSDQU19B1Uk3ZMMy1AW3s=",
-    "last_login": null,
+    "last_login": "2025-09-09T18:39:23.441Z",
     "is_superuser": false,
     "username": "vardan",
     "first_name": "",
@@ -40,7 +40,7 @@
   "pk": 4,
   "fields": {
     "password": "pbkdf2_sha256$1000000$EfYYEsrqUJzL3lA3Ortfv7$ZkEsgsa/HuSkOTEnk5i2J4L4Zel9w4XKau2XKt58wJk=",
-    "last_login": null,
+    "last_login": "2025-09-05T15:25:34.603Z",
     "is_superuser": false,
     "username": "narek",
     "first_name": "",
@@ -67,6 +67,60 @@
     "is_staff": false,
     "is_active": true,
     "date_joined": "2025-08-31T16:17:48.023Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$inImbG779r21cxuYmmxraU$C7vID9uku5xn4IRPupS6WYZKkL75Ml9uzhv9YGEc/Qw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "poxos",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-06T06:17:54.062Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$rcobthqq6kW945U92RAj58$WwMXTjquZt7adKA2Wmns0x4qtPbj6mMtwMNbMvcKUx0=",
+    "last_login": "2025-09-06T07:55:30.494Z",
+    "is_superuser": false,
+    "username": "edo",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-06T06:27:29.727Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$VXwGGTf19P3xKlIda98vG1$LhVfEO+1s+O1vk9u7y2k85zSviWFjsD68SuDac3QOeE=",
+    "last_login": "2025-09-09T16:30:38.458Z",
+    "is_superuser": false,
+    "username": "sargis",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-09T16:21:28.212Z",
     "groups": [],
     "user_permissions": []
   }

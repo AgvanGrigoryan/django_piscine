@@ -1,0 +1,114 @@
+[
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "article": 4
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "article": 1
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "article": 4
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "article": 3
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "article": 2
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 6,
+  "fields": {
+    "user": 7,
+    "article": 4
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 7,
+  "fields": {
+    "user": 7,
+    "article": 3
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 8,
+  "fields": {
+    "user": 7,
+    "article": 5
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 9,
+  "fields": {
+    "user": 1,
+    "article": 4
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 10,
+  "fields": {
+    "user": 1,
+    "article": 5
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 11,
+  "fields": {
+    "user": 1,
+    "article": 1
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 12,
+  "fields": {
+    "user": 1,
+    "article": 7
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 13,
+  "fields": {
+    "user": 1,
+    "article": 6
+  }
+},
+{
+  "model": "articles.userfavouritearticle",
+  "pk": 14,
+  "fields": {
+    "user": 3,
+    "article": 1
+  }
+}
+]

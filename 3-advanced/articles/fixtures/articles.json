@@ -42,5 +42,71 @@
     "synopsis": "synopsis_dump_value",
     "content": "I am the best programmer ever"
   }
+},
+{
+  "model": "articles.article",
+  "pk": 5,
+  "fields": {
+    "title": "The Best place on earth",
+    "author": 7,
+    "created": "2025-09-06T08:04:52.438Z",
+    "synopsis": "Gumburdo, Javakheti",
+    "content": "Gumburdo is a picturesque Armenian village in southern Georgia, set high in the mountains at around 1,740 meters. Surrounded by lush forests, rolling hills, and scenic valleys, it offers breathtaking views and a peaceful natural environment. The village is home to a close-knit community that preserves its Armenian traditions, celebrating local festivals and maintaining historic homes. Life here is deeply connected to the mountains and nature, with people living in harmony with the stunning landscape around them."
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 6,
+  "fields": {
+    "title": "Random thoughts during the shower",
+    "author": 7,
+    "created": "2025-09-06T08:27:43.775Z",
+    "synopsis": "about life",
+    "content": "1. The scream in your head will never be out of breath.\r\n\r\n2. Do fish in water have their hidden life where they go to school, hang out, study, and get married?\r\n\r\n3. If everyone had roller skates instead of feet, would there be cars or would they go rollerblading everywhere?\r\n\r\n4. We will never know what memories we had as children and we will never remember them.\r\n\r\n5. We know our parents for whole our life, while they know us only part of their lives.\r\n\r\n6. Someone was born at this very moment, and someone lost his life at this very moment.\r\n\r\n7. Our brain has never experienced some things, and yet it can tailor a scenario in its head as if it had happened.\r\n\r\n8. If the tomato is a fruit, then ketchup is the jam.\r\n\r\n9. If I were a book, what title would I have?\r\n\r\n10. Valentine’s Day is known for its red color, red roses, red hearts … Would it be strange if another color was used for Valentine’s Day instead of red? And why red? Why does red associate us with love?\r\n\r\n11. The hospital where you were born is the only building you left without entering.\r\n\r\n12. Humans invented the sounds produced by dinosaurs.\r\n\r\n13. Maybe it’s better not to kill the spider, because if I kill him, his family and friends can come to the funeral and in that way, I will summon many more spiders.\r\n\r\n14. Who invented the words and names of certain objects and how did it occur to someone to call a chair just like that – “chair”?\r\n\r\n15. How does our voice in our head sound?"
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 7,
+  "fields": {
+    "title": "Longest Synopsis",
+    "author": 1,
+    "created": "2025-09-06T13:06:16.394Z",
+    "synopsis": "THIS_IS_MY_LONGEST_SYNOPSIS_IN_THIS_WEB_SITE_YET_CAN_YOU_BEAT_MY_RECORD",
+    "content": "OMG... what is it?"
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 8,
+  "fields": {
+    "title": "OMG",
+    "author": 1,
+    "created": "2025-09-06T13:09:13.881Z",
+    "synopsis": "you won't believe what i saw",
+    "content": "ahahaha, you fell for it"
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 9,
+  "fields": {
+    "title": "I added the bootstrap styling",
+    "author": 3,
+    "created": "2025-09-09T18:56:51.257Z",
+    "synopsis": "bootstrap styling",
+    "content": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa, I'm sooo tired"
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 10,
+  "fields": {
+    "title": "Programmers first words",
+    "author": 3,
+    "created": "2025-09-09T18:59:02.223Z",
+    "synopsis": "tsssss.... This is very big secret",
+    "content": "Hello World!"
+  }
 }
 ]
