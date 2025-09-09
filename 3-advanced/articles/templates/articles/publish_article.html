@@ -1,11 +1,14 @@
+
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %}Publish New Article{% endblock %}
 {% block content %}
 <h1>New Article</h1>
 <form action="{% url 'publish' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Publish</button>
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Publish" %}
+    <!-- <button type="submit">Publish</button> -->
 </form>
 
 <hr>

@@ -1,24 +1,31 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
-<h1>{{ article.title }}</h1>
-{% if user.is_authenticated %}
-    {% if already_favourite %}
-        <p>⭐ Already in favourites</p>
-    {% else %}
-        <form action="{% url 'add-favourite' article.pk %}" method="post">
-            {% csrf_token %}
-            {{ add_favourite_form.as_p }}
-            <button type="submit">Add to favourites</button>
-        </form>
-    {% endif %}
-{% endif %}
-<p><strong>Author:</strong> {{ article.author }}</p>
-<p><strong>Published:</strong> {{ article.created|date:"Y-m-d H:i" }}</p>
-<div>
-    {{ article.content }}
-</div>
+<!-- <h1>Article Detail</h1> -->
 
-<hr>
-<a href="javascript:history.back()">Back to list</a>
+<div class="card border-info m-3 mx-auto" style="max-width: 50rem;">
+  <div class="card-header">
+    <strong>Author:</strong> {{ article.author }}
+    ||
+    <strong>Published:</strong> {{ article.created|date:"Y-m-d H:i" }}
+    {% if already_favourite %}
+    ||
+    <span class="badge bg-dark text-warning">⭐ Favourite</span>
+    {% endif %}
+    </div>
+  <div class="card-body">
+    <h4 class="card-title">{{ article.title }}</h4>
+    <p class="card-text">{{ article.content }}</p>
+  </div>
+  {% if user.is_authenticated %}
+      {% if not already_favourite %}
+      <form action="{% url 'add-favourite' article.pk %}" method="post">
+          {% csrf_token %}
+          {% bootstrap_form add_favourite_form %}
+          <button type="submit" class="btn btn-link link-warning m-2" style="border: none;" >Add to favourites</button>
+      </form>
+      {% endif %}
+  {% endif %}
+</div>
 {% endblock %}

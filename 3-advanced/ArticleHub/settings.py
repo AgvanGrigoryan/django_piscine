@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bootstrap5',
     'articles',
     'accounts',
 ]
@@ -127,3 +128,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login-view'
 LOGIN_REDIRECT_URL = 'home-view'
 LOGOUT_REDIRECT_URL = 'home-view'
+
+BOOTSTRAP5 = {
+    "css_url": "https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.7/brite/bootstrap.min.css",
+    "javascript_url": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js",
+}

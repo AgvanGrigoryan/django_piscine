@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}{{ user.username }}'s Articles{% endblock %}
 {% block content %}
-<h1>{{ user.username }}'s Articles</h1>
-<table border="1" cellpadding="5" cellspacing="0">
+<h1><strong class="text-primary">{{ user.username }}</strong>'s Articles</h1>
+<table border="1" cellpadding="5" cellspacing="0" class="table table-hover">
     <thead>
         <tr>
             <th>Title</th>
@@ -15,17 +15,17 @@
     </thead>
     <tbody>
         {% for article in articles %}
-        <tr>
+        <tr class="table-active">
             <td>{{ article.title }}</td>
             <td>{{ article.author }}</td>
             <td>{{ article.created }}</td>
             <td>{{ article.created|timesince }} ago</td>
             <td>{{ article.synopsis|truncatechars:20 }}</td>
-            <td><a href="{% url 'article-detail' article.pk %}" title="View Details">Detail</a></td>
+            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="text-info" >Detail</a></td>
         </tr>
         {% empty %}
-        <tr>
-            <td colspan="5">No articles found.</td>
+        <tr class="table-dark">
+            <td colspan="6" class="text-info-emphasis">No articles found.</td>
         </tr>
         {% endfor %}
     </tbody>

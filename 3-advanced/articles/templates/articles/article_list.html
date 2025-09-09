@@ -1,32 +1,34 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load random_table_color_class %}
 {% block title %}All articles{% endblock %}
 {% block content %}
 <h1>All Articles</h1>
-<h2><a href="{% url 'publish' %}">Create Article</a></h2>
-<table border="1" cellpadding="5" cellspacing="0">
+<h2><a href="{% url 'publish' %}" class="link">Create Article</a></h2>
+<table border="1" cellpadding="5" cellspacing="0" class="table table-hover">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Created</th>
-            <th>Published</th>
-            <th>Synopsis</th>
-            <th>Detail</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Created</th>
+            <th scope="col">Published</th>
+            <th scope="col">Synopsis</th>
+            <th scope="col">Detail</th>
         </tr>
     </thead>
     <tbody>
         {% for article in articles %}
-        <tr>
+        <tr class="{{ article.id|deterministic_class }} ">
             <td>{{ article.title }}</td>
             <td>{{ article.author.username }}</td>
             <td>{{ article.created }}</td>
             <td>{{ article.created|timesince }} ago</td>
             <td>{{ article.synopsis|truncatechars:20 }}</td>
-            <td><a href="{% url 'article-detail' article.pk %}" title="View Details">Detail</a></td>
+            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="link-dark">Detail</a></td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5">No articles found.</td>
+            <td colspan="5" class="text-info-emphasis">No articles found.</td>
         </tr>
         {% endfor %}
     </tbody>
