@@ -17,15 +17,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-body-tertiary" href="{% url 'article-list' %}">{% translate "Last Articles" %}</a>
+            <a class="nav-link text-body-tertiary" href="{% url 'article-list' %}">{% translate "Articles" %}</a>
         </li>
         <!-- Language Picker List -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-body" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% translate "Language" %}: {{ lang.code }}</a>
             <div class="dropdown-menu">
-                <!-- {% for lang_code, lang_name in LANGUAGES %}
-                <a class="dropdown-item" href="#">{{ lang_code }} | {{ lang_code|language_name_local  }}</a>
-                {% endfor %} -->
                 {% for lang_code, lang_name in LANGUAGES %}
                     <form action="{% url 'set_language' %}" method="post">
                         {% csrf_token %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-16 14:50+0400\n"
+"POT-Creation-Date: 2025-09-16 17:25+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #. Translators: msg of button of Login form
 #: accounts/templates/accounts/login.html:5
 #: accounts/templates/accounts/login.html:8
-#: accounts/templates/accounts/login.html:13 templates/navbar.html:51
+#: accounts/templates/accounts/login.html:13 templates/navbar.html:54
 msgid "Login"
 msgstr "Войти"
 
@@ -37,7 +37,7 @@ msgid "Registration"
 msgstr "Регистрация"
 
 #. Translators: msg of button of Registration form
-#: accounts/templates/accounts/register.html:13 templates/navbar.html:52
+#: accounts/templates/accounts/register.html:13 templates/navbar.html:55
 msgid "Register"
 msgstr "Создать аккаунт"
 
@@ -150,7 +150,7 @@ msgid "Favourite Articles"
 msgstr "Избранные статьи"
 
 #. Translators: msg of title of current user articles page
-#: articles/templates/articles/my_article_list.html:4 templates/navbar.html:37
+#: articles/templates/articles/my_article_list.html:4 templates/navbar.html:40
 msgid "My Articles"
 msgstr "Мои Статьи"
 
@@ -184,24 +184,27 @@ msgid "Home"
 msgstr "Главная"
 
 #: templates/navbar.html:20
-msgid "Last Articles"
-msgstr "Последнее"
+msgid "Articles"
+msgstr "Статьи"
 
 #: templates/navbar.html:24
 msgid "Language"
 msgstr "Язык"
 
-#: templates/navbar.html:28 templates/navbar.html:38
-msgid "Favorites"
-msgstr "Избранные"
-
-#: templates/navbar.html:35
+#: templates/navbar.html:38
 msgid "Logged as"
 msgstr "Вы вошли как"
 
-#: templates/navbar.html:48
+#: templates/navbar.html:41
+msgid "Favorites"
+msgstr "Избранные"
+
+#: templates/navbar.html:51
 msgid "Logout"
 msgstr "Выйти"
+
+#~ msgid "Last Articles"
+#~ msgstr "Последнее"
 
 #, fuzzy
 #~| msgid "Favorites"
