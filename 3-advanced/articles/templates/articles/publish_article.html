@@ -1,16 +1,15 @@
-
 {% extends 'base.html' %}
+{% load i18n %}
 {% load django_bootstrap5 %}
-{% block title %}Publish New Article{% endblock %}
+{# Translators: title block msg #}
+{% block title %}{% translate "New Article" %}{% endblock %}
 {% block content %}
-<h1>New Article</h1>
+{# Translators: header block msg #}
+<h1>{% translate "New Article" %}</h1>
 <form action="{% url 'publish' %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Publish" %}
-    <!-- <button type="submit">Publish</button> -->
+    {# Translators: btn msg content of article publish page form #}
+    <button type="submit" class="btn btn-primary">{% translate "Publish" %}</button>
 </form>
-
-<hr>
-<!-- <a href="javascript:history.back()">Back to list</a> -->
 {% endblock %}

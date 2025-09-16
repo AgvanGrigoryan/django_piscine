@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Favourite Articles{% endblock %}
+{% load i18n %}
+{# Translators: Favourites pages title block msg #}
+{% block title %}{% translate "Favourite Articles" %}{% endblock %}
 {% block content %}
-<h1>Favourite Articles</h1>
+{# Translators: Favourites pages header block msg #}
+<h1>{% translate "Favourite Articles" %}</h1>
 <!-- <ul>
     {% for article in articles %}
         <li>
@@ -22,7 +25,7 @@
         <span class="badge border-primary rounded-pill text-primary-emphasis">{{ article.author }}</span>
     </li>
     {% empty %}
-        <li>No articles found.</li>
+        <li class="list-group-item">{% translate "No articles found." %}</li>
     {% endfor %}
 </ul>
 {% endblock %}

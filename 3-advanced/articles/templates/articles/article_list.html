@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load django_bootstrap5 %}
 {% load random_table_color_class %}
-{% block title %}All articles{% endblock %}
+{# Translators: Article List page title block msg #}
+{% block title %}{% translate "All Articles" %}{% endblock %}
 {% block content %}
-<h1>All Articles</h1>
-<h2><a href="{% url 'publish' %}" class="link">Create Article</a></h2>
+{# Translators: Article List page Header block msg #}
+<h1>{% translate "All Articles" %}</h1>
+{# Translators: msg of link to new article creating page #}
+<h2><a href="{% url 'publish' %}" class="link">{% translate "Create Article" %}</a></h2>
 <table border="1" cellpadding="5" cellspacing="0" class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Created</th>
-            <th scope="col">Published</th>
-            <th scope="col">Synopsis</th>
-            <th scope="col">Detail</th>
+            {# Translators: Table headers #}
+            <th scope="col">{% translate "Title" %}</th>
+            <th scope="col">{% translate "Author" %}</th>
+            <th scope="col">{% translate "Created" %}</th>
+            <th scope="col">{% translate "Published" %}</th>
+            <th scope="col">{% translate "Synopsis" %}</th>
+            <th scope="col">{% translate "Detail" %}</th>
         </tr>
     </thead>
     <tbody>
@@ -22,13 +27,15 @@
             <td>{{ article.title }}</td>
             <td>{{ article.author.username }}</td>
             <td>{{ article.created }}</td>
-            <td>{{ article.created|timesince }} ago</td>
+            {# Translators: Relative time suffix. Example: "2 hours ago" #}
+            <td>{{ article.created|timesince }} {% translate "ago" %}</td>
             <td>{{ article.synopsis|truncatechars:20 }}</td>
-            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="link-dark">Detail</a></td>
+            {# Translators: Detail button msg in table #}
+            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="text-dark" >{% translate "Detail" %}</a></td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5" class="text-info-emphasis">No articles found.</td>
+            <td colspan="6" class="text-info-emphasis">{% translate "No articles found." %}</td>
         </tr>
         {% endfor %}
     </tbody>

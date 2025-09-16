@@ -90,8 +90,11 @@ class AddFavouriteView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['article'] = Article.objects.get(pk=self.kwargs['pk'])
+        context['already_favourite'] = UserFavouriteArticle.objects.filter(
+                user=self.request.user, article=context['article']
+            ).exists()
+
         return context
     
     def get_success_url(self):

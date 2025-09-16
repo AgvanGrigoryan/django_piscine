@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load django_bootstrap5 %}
 {% block title %}{{ article.title }}{% endblock %}
 {% block content %}
 <h1>{{ article.title }}</h1>
-{% if article in user.favourite_articles.all %}
-    <p>⭐ Already in favourites</p>
-{% else %}
+{% if user.is_authenticated %}
+    {% if already_favourite %}
+    {# Translators: text shown on an article card to indicate that the post is marked as favourite. #}
+    <p>⭐ {% translate "Already in favourites" %}</p>
+    {% else %}
     <form action="{% url 'add-favourite' article.pk %}" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="button" class="btn btn-outline-warning">Add to favourites</button>
-        <!-- <button type="submit">Add to favourites</button> -->
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-link link-warning m-2" style="border: none;" >{% translate "Add to favourites" %}</button>
     </form>
+    {% endif %}
 {% endif %}
 {% endblock %}

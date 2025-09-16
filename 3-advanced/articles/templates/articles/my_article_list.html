@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
-{% block title %}{{ user.username }}'s Articles{% endblock %}
+{% load i18n %}
+{# Translators: msg of title of current user articles page #}
+{% block title %}>{% translate "My Articles" %}{% endblock %}
+
 {% block content %}
-<h1><strong class="text-primary">{{ user.username }}</strong>'s Articles</h1>
+<h1>
+    {# Translators: msg block of header of current user articles page #}
+    {% blocktranslate with username=user.username %}
+        <strong class="text-primary">{{ username }}</strong>'s Articles
+    {% endblocktranslate %}
+</h1>
 <table border="1" cellpadding="5" cellspacing="0" class="table table-hover">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Created</th>
-            <th>Published</th>
-            <th>Synopsis</th>
-            <th>Detail</th>
+            {# Translators: Table headers #}
+            <th scope="col">{% translate "Title" %}</th>
+            <th scope="col">{% translate "Author" %}</th>
+            <th scope="col">{% translate "Created" %}</th>
+            <th scope="col">{% translate "Published" %}</th>
+            <th scope="col">{% translate "Synopsis" %}</th>
+            <th scope="col">{% translate "Detail" %}</th>
         </tr>
     </thead>
     <tbody>
@@ -19,13 +28,15 @@
             <td>{{ article.title }}</td>
             <td>{{ article.author }}</td>
             <td>{{ article.created }}</td>
-            <td>{{ article.created|timesince }} ago</td>
+            {# Translators: Relative time suffix. Example: "2 hours ago" #}
+            <td>{{ article.created|timesince }} {% translate "ago" %}</td>
             <td>{{ article.synopsis|truncatechars:20 }}</td>
-            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="text-info" >Detail</a></td>
+            {# Translators: Detail button msg in table #}
+            <td><a href="{% url 'article-detail' article.pk %}" title="View Details" class="text-info" >{% translate "Detail" %}</a></td>
         </tr>
         {% empty %}
         <tr class="table-dark">
-            <td colspan="6" class="text-info-emphasis">No articles found.</td>
+            <td colspan="6" class="text-info-emphasis">{% translate "No articles found." %}</td>
         </tr>
         {% endfor %}
     </tbody>

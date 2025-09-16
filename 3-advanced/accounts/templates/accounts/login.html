@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load django_bootstrap5 %}
-{% block title %}Login{% endblock %}
+{# Translators: msg of title of Login page #}
+{% block title %}{% translate "Login" %}{% endblock %}
 {% block content %}
-<h1>Login</h1>
+{# Translators: msg of header of Login page #}
+<h1>{% translate "Login" %}</h1>
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary">Login</button>
+    {# Translators: msg of button of Login form #}
+    <button type="submit" class="btn btn-primary">{% translate "Login" %}</button>
 
 </form>
 

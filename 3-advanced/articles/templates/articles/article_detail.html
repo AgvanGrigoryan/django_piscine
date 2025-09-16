@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load django_bootstrap5 %}
-{% block title %}{{ article.title }}{% endblock %}
+{# Translators: Article Detail page title block msg #}
+{% block title %}{% translate "Article Detail" %}{% endblock %}
 {% block content %}
-<!-- <h1>Article Detail</h1> -->
-
 <div class="card border-info m-3 mx-auto" style="max-width: 50rem;">
   <div class="card-header">
-    <strong>Author:</strong> {{ article.author }}
+    <strong>{% translate "Author:" %}</strong> {{ article.author }}
     ||
-    <strong>Published:</strong> {{ article.created|date:"Y-m-d H:i" }}
+    <strong>{% translate "Published:" %}</strong> {{ article.created|date:"Y-m-d H:i" }}
     {% if already_favourite %}
     ||
-    <span class="badge bg-dark text-warning">⭐ Favourite</span>
+    {# Translators: Label on article card indicating a favourite post. #}
+    <span class="badge bg-dark text-warning">⭐ {% translate "Favourite" %}</span>
     {% endif %}
     </div>
   <div class="card-body">
@@ -23,7 +24,7 @@
       <form action="{% url 'add-favourite' article.pk %}" method="post">
           {% csrf_token %}
           {% bootstrap_form add_favourite_form %}
-          <button type="submit" class="btn btn-link link-warning m-2" style="border: none;" >Add to favourites</button>
+          <button type="submit" class="btn btn-link link-warning m-2" style="border: none;" >{% translate "Add to favourites" %}</button>
       </form>
       {% endif %}
   {% endif %}
