@@ -26,7 +26,6 @@ class MyArticleListView(LoginRequiredMixin, ListView):
             Article.objects
             .filter(author=self.request.user)
             .select_related('author')
-            .order_by('-created')
         )
 
 class ArticleDetailView(DetailView):

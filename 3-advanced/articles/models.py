@@ -10,6 +10,9 @@ class Article(models.Model):
     synopsis = models.CharField(max_length=312)
     content = models.TextField(null=False, blank=True)
 
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return self.title
 
