@@ -19,7 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 from articles.views import HomeView
 
-urlpatterns = i18n_patterns(
+urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+
+urlpatterns += i18n_patterns(
     path('', HomeView.as_view(), name='home-view'),
     path('articles/', include('articles.urls')),
     path('accounts/', include('accounts.urls')),

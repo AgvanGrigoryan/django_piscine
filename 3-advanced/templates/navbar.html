@@ -11,33 +11,39 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav me-auto">
         <li class="nav-item">
-        {# Translators: Label of a Home link on the navbar #}
-        <a class="nav-link active text-body-tertiary" href="{% url 'home-view' %}">{% translate "Home" %}
-            <span class="visually-hidden">(current)</span>
-        </a>
+            {# Translators: Label of a Home link on the navbar #}
+            <a class="nav-link active text-body-tertiary" href="{% url 'home-view' %}">{% translate "Home" %}
+                <span class="visually-hidden">(current)</span>
+            </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link text-body-tertiary" href="{% url 'article-list' %}">{% translate "Last Articles" %}</a>
+            <a class="nav-link text-body-tertiary" href="{% url 'article-list' %}">{% translate "Last Articles" %}</a>
         </li>
         <!-- Language Picker List -->
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-body" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% translate "Language" %}: {{ lang.code }}</a>
-        <div class="dropdown-menu">
-            {% for lang_code, lang_name in LANGUAGES %}
-            <a class="dropdown-item" href="#">{{ lang_code }} | {{ lang_code|language_name_local  }}</a>
-            <!-- <a class="dropdown-item" href="{% url 'favourites' %}">{% translate "Favorites" %}</a> -->
-            {% endfor %}
-        </div>
-        </li>
+            <a class="nav-link dropdown-toggle text-body" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% translate "Language" %}: {{ lang.code }}</a>
+            <div class="dropdown-menu">
+                <!-- {% for lang_code, lang_name in LANGUAGES %}
+                <a class="dropdown-item" href="#">{{ lang_code }} | {{ lang_code|language_name_local  }}</a>
+                {% endfor %} -->
+                {% for lang_code, lang_name in LANGUAGES %}
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <input name="language" type="hidden" value="{{ lang_code }}">
+                        <button type="submit" class="dropdown-item">{{ lang_name }} | {{ lang_code|language_name_local }}</button>
+                    </form>
+                {% endfor %}
+            </div>
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-body" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% translate "Logged as" %} {{ user.username }}</a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="{% url 'my-articles' %}">{% translate "My Articles" %}</a>
-            <a class="dropdown-item" href="{% url 'favourites' %}">{% translate "Favorites" %}</a>
-            <div class="dropdown-divider"></div>
-        </div>
+            <a class="nav-link dropdown-toggle text-body" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{% translate "Logged as" %} {{ user.username }}</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'my-articles' %}">{% translate "My Articles" %}</a>
+                <a class="dropdown-item" href="{% url 'favourites' %}">{% translate "Favorites" %}</a>
+                <div class="dropdown-divider"></div>
+            </div>
         </li>
         {% endif %}
     </ul>
