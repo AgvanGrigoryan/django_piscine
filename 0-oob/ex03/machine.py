@@ -12,6 +12,8 @@ class CoffeeMachine:
     def serve(self, beverage_class: type[beverages.HotBeverage]):
         if self.resource <= 0:
             raise self.BrokenMachineException()
+        if not issubclass(beverage_class, beverages.HotBeverage):
+            raise TypeError("Parameter must be a subclass of HotBeverage")
         self.resource -= 1
         return random.choice([beverage_class(), self.EmptyCup()])
     
@@ -46,3 +48,5 @@ if __name__ == "__main__":
             if i < 20:
                 machine_one.repair()
                 print("\033[0;32m[REPAIRED]\033[0m")
+        except TypeError as e:
+            print(f"\033[0;31m{e}\033[0m")
