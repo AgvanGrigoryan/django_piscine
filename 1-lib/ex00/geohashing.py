@@ -58,20 +58,20 @@ class Longitude(Coordinate):
 
 class Geohash:
     _CHUNK_SIZE = 5
-    _ENCODED_SIZE = 32
     _HASHTABLE = (
         '0', '1', '2', '3', '4', '5', '6', '7',
         '8', '9', 'b', 'c', 'd', 'e', 'f', 'g',
         'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r',
         's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
 
-    def __init__(self):
+    def __init__(self, precision: int = 7):
         if (2 ** self._CHUNK_SIZE) > len(self._HASHTABLE):
             raise ValueError("Geohash._CHUNK_SIZE max possible value can not be greather than len(Geohash._HASHTABLE)")
-        
+        self._encoded_size: int = ((precision * self._CHUNK_SIZE) // 2) + 1
+
     @staticmethod
     def _interleave_coordinates(xbin: str, ybin: str):
-        final_bin = "".join([bit1 + bit2 for bit1, bit2 in zip(xbin, ybin)])
+        final_bin = "".join([bit1 + bit2 for bit1, bit2 in zip(ybin, xbin)])
         return final_bin
 
     @staticmethod
@@ -81,15 +81,14 @@ class Geohash:
             return splited[: -1]
         return splited
 
-    @classmethod
-    def _encode_coordinate(cls, coordinate: Coordinate) -> str:
+    def _encode_coordinate(self, coordinate: Coordinate) -> str:
         interval = {
             'min': coordinate.min,
             'max': coordinate.max,
             'mid': 0.0
         }
-        bin32: list[str] = [""] * cls._ENCODED_SIZE
-        for i in range(cls._ENCODED_SIZE):
+        bin32: list[str] = [""] * self._encoded_size
+        for i in range(self._encoded_size):
             if coordinate >= interval['mid']:
                 bin32[i] = '1'
                 interval['min'] = interval['mid']
@@ -116,16 +115,28 @@ class Geohash:
         hashed_chunkes = self._hash_chunks(encoded_chunks)
         return "".join(hashed_chunkes)
 
-if __name__ == "__main__":
-    EXPECTED_ARGC = 2
-    if (argc := len(sys.argv) - 1) != EXPECTED_ARGC:
-        raise SystemExit(f"takes {EXPECTED_ARGC} positional arguments <latitude> <longitude>, given {argc}")
-    latitude = Latitude(sys.argv[1])
-    longitude = Longitude(sys.argv[2])
+def validate_input():
+    argc = len(sys.argv) - 1
+    if argc < 2 or argc > 3:
+        raise SystemExit(f"takes 2 or 3 positional arguments <latitude> <longitude> [precision], given {argc}")
 
+    if argc == 3:
+        try:
+            precision = int(sys.argv[3])
+            return sys.argv[1], sys.argv[2], precision
+        except ValueError as e:
+            raise SystemExit("Precision must be an integer") from e
+    else:
+        return sys.argv[1], sys.argv[2], 7
+
+if __name__ == "__main__":
+    arg1, arg2, precision = validate_input()
+
+    latitude = Latitude(arg1)
+    longitude = Longitude(arg2)
     print(latitude, longitude)
 
-    geohashing = Geohash()
+    geohashing = Geohash(precision)
 
     position_hash = geohashing.generate_hash(latitude, longitude)
     print(position_hash)
