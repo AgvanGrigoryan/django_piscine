@@ -10,4 +10,3 @@ django_venv/bin/pip install -r requirement.txt --only-binary :all:
 echo "Virtual environment 'django_venv' is ready."
 echo "Activating..."
 source ./django_venv/bin/activate
-$SHELL
