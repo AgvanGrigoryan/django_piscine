@@ -42,7 +42,6 @@ def process(query: str) -> None:
     title, content = make_api_request(query)
     clean_content = dewiki.from_string(content)
     save_to_file(query, clean_content)
-    pass
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
