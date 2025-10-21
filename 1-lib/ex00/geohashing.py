@@ -67,18 +67,17 @@ class Geohash:
     def __init__(self, precision: int = 7):
         if (2 ** self._CHUNK_SIZE) > len(self._HASHTABLE):
             raise ValueError("Geohash._CHUNK_SIZE max possible value can not be greather than len(Geohash._HASHTABLE)")
-        self._encoded_size: int = ((precision * self._CHUNK_SIZE) // 2) + 1
+        self._encoded_size: int = (precision * self._CHUNK_SIZE) // 2
 
     @staticmethod
-    def _interleave_coordinates(xbin: str, ybin: str):
-        final_bin = "".join([bit1 + bit2 for bit1, bit2 in zip(ybin, xbin)])
+    def _interleave_coordinates(lat: str, lon: str):
+        final_bin = "".join([bit1 + bit2 for bit1, bit2 in zip(lon, lat)])
         return final_bin
 
     @staticmethod
     def split_string_into_chunks(input_string: str, chunk_size: int):
         splited: list[str] = [input_string[i:i + chunk_size] for i in range(0, len(input_string), chunk_size)]
-        if len(input_string) % chunk_size != 0:
-            return splited[: -1]
+        splited[-1] = splited[-1].ljust(chunk_size, '0')
         return splited
 
     def _encode_coordinate(self, coordinate: Coordinate) -> str:
@@ -101,10 +100,12 @@ class Geohash:
 
     @classmethod
     def _hash_chunks(cls, chunks: list[str]):
+        print(chunks)
         return [cls._hash(int(chunk, base=2)) for chunk in chunks]
 
     @classmethod
     def _hash(cls, to_hash: int):
+        print(to_hash)
         return cls._HASHTABLE[to_hash]
 
     def generate_hash(self, latitude: Latitude, longitude: Longitude):
