@@ -11,5 +11,4 @@ source ./django_venv/bin/activate
 
 echo "Virtual environment 'django_venv' is ready."
 echo "Activating..."
-source ./django_venv/bin/activate
 $SHELL
