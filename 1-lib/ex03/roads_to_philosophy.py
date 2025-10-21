@@ -1,6 +1,6 @@
 import sys
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 def print_road_info(dead_end: bool, road: list[str]):
     if dead_end:
@@ -16,6 +16,17 @@ def process_title(title: str, passed_titles_set: set[str], passed_titles_list: l
     passed_titles_set.add(title)
     passed_titles_list.append(title)
 
+def is_inside_parentheses(a) -> bool:
+    parent = a.find_parent("p")
+    if not parent:
+        return False
+    parent_text = parent.get_text()
+    idx = parent_text.find(a.get_text())
+    if idx == -1:
+        return False
+    text_up_to_link = parent_text[:idx]
+    return text_up_to_link.count("(") > text_up_to_link.count(")")
+
 def get_first_link_to_article(soup: BeautifulSoup):
     WIKIPEDIA_URL = "https://en.wikipedia.org"
 
@@ -29,10 +40,17 @@ def get_first_link_to_article(soup: BeautifulSoup):
         links = p.find_all("a")
         for a in links:
             parents = (parent.name for parent in a.parents)
-            if "table" in parents:
+            if "table" in parents :
+                continue
+            elif is_inside_parentheses(a) or a.find_parent(["i", "em"]):
                 continue
             href = a.get("href")
-            if href and href.startswith("/wiki/") and ":" not in href and "#" not in href:
+            if (
+                href and
+                href.startswith("/wiki/") and
+                ":" not in href and
+                "#" not in href
+            ):
                 return WIKIPEDIA_URL + href
     return None
 
@@ -56,9 +74,12 @@ def process(url: str) -> None:
     passed_titles_set: set[str] = set()
     passed_titles_list: list[str] = []
     dead_end = False
+    headers = {
+        "User-Agent": "roads_to_philosophers.py (https://github.com/agvangrigoryan)"
+    }
 
     while True:
-        response = requests.get(url)
+        response = requests.get(url, headers=headers)
         if response.ok is False:
             dead_end = True
             break
