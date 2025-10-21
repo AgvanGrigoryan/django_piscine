@@ -67,6 +67,8 @@ class Geohash:
     def __init__(self, precision: int = 7):
         if (2 ** self._CHUNK_SIZE) > len(self._HASHTABLE):
             raise ValueError("Geohash._CHUNK_SIZE max possible value can not be greather than len(Geohash._HASHTABLE)")
+        if not isinstance(precision, int) or precision == 0:
+            raise ValueError("Invalid Precision Value")
         self._encoded_size: int = (precision * self._CHUNK_SIZE) // 2
 
     @staticmethod
@@ -100,12 +102,10 @@ class Geohash:
 
     @classmethod
     def _hash_chunks(cls, chunks: list[str]):
-        print(chunks)
         return [cls._hash(int(chunk, base=2)) for chunk in chunks]
 
     @classmethod
     def _hash(cls, to_hash: int):
-        print(to_hash)
         return cls._HASHTABLE[to_hash]
 
     def generate_hash(self, latitude: Latitude, longitude: Longitude):
@@ -132,13 +132,13 @@ def validate_input():
 
 if __name__ == "__main__":
     arg1, arg2, precision = validate_input()
+    try:
+        latitude = Latitude(arg1)
+        longitude = Longitude(arg2)
 
-    latitude = Latitude(arg1)
-    longitude = Longitude(arg2)
-    print(latitude, longitude)
-
-    geohashing = Geohash(precision)
-
+        geohashing = Geohash(precision)
+    except ValueError as e:
+        raise SystemExit(f"{e}") from e
     position_hash = geohashing.generate_hash(latitude, longitude)
     print(position_hash)
 
