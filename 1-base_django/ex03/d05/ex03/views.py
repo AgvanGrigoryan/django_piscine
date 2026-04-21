@@ -31,4 +31,4 @@ def index(request):
         "colors": colors,
         "shades_table" : build_shades_table(colors),
     }
-    return render(request, "ex03_index.html", context)
+    return render(request, "ex03/ex03_index.html", context)

@@ -15,7 +15,7 @@ def renderForm(request):
     if os.path.exists(settings.EX02_LOG_PATH):
         with open(settings.EX02_LOG_PATH, mode="r") as logs:
             history = logs.readlines()
-    return render(request, "ex02_index.html", {"form": form, "history": history})
+    return render(request, "ex02/ex02_index.html", {"form": form, "history": history})
 
 def save_logs(log_text: str):
     with open(settings.EX02_LOG_PATH, mode="a") as logs:
